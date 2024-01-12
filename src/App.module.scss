@@ -1,0 +1,30 @@
+.header {
+  width: 100%;
+  height: 97px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  gap: 65%;
+}
+
+.headerNav {
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__listItem {
+    // margin: 0 10px;
+  }
+
+  &__itemLink {
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+
+    &:hover {
+      border-bottom: 2px solid #fff;
+    }
+  }
+}
