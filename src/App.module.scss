@@ -1,0 +1,136 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 97px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  gap: 73%;
+  padding: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  background-color: #2d416f;
+  height: 58px;
+  width: 100%;
+  color: #fff;
+  padding-left: 43px;
+  font-weight: 400;
+  line-height: 19.2px;
+}
+
+.logo {
+  margin-left: 1px;
+  margin-top: 2px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 16rem;
+}
+
+.role {
+  // margin-top: 0;
+  // font-size: 12px;
+}
+
+.headerNav {
+  width: 20%;
+  max-width: 302px;
+  margin-top: 0px;
+  padding: 16px;
+  height: 100%;
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    display: inline;
+  }
+
+  &__listItem {
+    margin: 0;
+    list-style: none;
+    background-color: #4baa79;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 270px;
+    height: 40px;
+  }
+
+  &__itemLink {
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    color: #818da9;
+  }
+}
+
+.contentWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f6f7f9;
+}
+
+.elementWrapper {
+  padding-left: 30px;
+
+  &__elementContainer {
+    border-radius: 10px 10px 0px 0px;
+    width: 90%;
+    padding: 24px;
+    background-color: #ffffff;
+  }
+
+  &__elementManagement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f4f6f8;
+  }
+
+  &__createButton {
+    padding: 16px;
+    background-color: #4baa79;
+    color: #ffffff;
+    font-weight: 700px;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__dataTable {
+    margin-top: 24px;
+  }
+}
+
+.breadcrumbText {
+  color: #abb3c5;
+  font-weight: 700;
+  line-height: 19.81px;
+}
+
+.breadcrumbIcon {
+  // padding-top: 2%;
+}
