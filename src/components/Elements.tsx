@@ -1,59 +1,164 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React, { useEffect, useState } from 'react';
 import styles from '../App.module.scss';
+import DataTable from 'react-data-table-component';
+import axios from 'axios';
+import { message, Popconfirm, Popover } from 'antd';
+import { More } from '../assets/icons';
+import { capitalizeFirstLetter, formatDateTime } from '../utils';
+import { useGetElementsQuery } from '../redux/dataSlice';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    borderRight: 'none',
-    borderLeft: 'none',
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-const StyledTableHead = styled(TableHead)(({ theme }) => ({
-  backgroundColor: '#2D416F',
-}));
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
+interface Element {
+  categoryId: number;
+  categoryValueId: number;
+  classificationId: number;
+  classificationValueId: number;
+  createdAt: string;
+  description: string;
+  effectiveEndDate: string;
+  effectiveStartDate: string;
+  id: string;
+  modifiedBy: string;
+  name: string;
+  payFrequency: string;
+  payRunId: number;
+  payRunValueId: number;
+  processingType: string;
+  prorate: string;
+  reportingName: string;
+  status: string | boolean;
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function Elements() {
+  const { data: response, error, isLoading } = useGetElementsQuery();
+
+  console.log('response', response);
+
+  interface ApiResponse {
+    [key: string]: any;
+  }
+
+  const [data, setData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+  const [open, setOpen] = useState(false);
+
+  const hide = () => {
+    setOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
+  const confirm = (e: any) => {
+    console.log(e);
+    message.success('Click on Yes');
+  };
+
+  const cancel = (e: any) => {
+    console.log(e);
+    message.error('Click on No');
+  };
+
+  const fetchElements = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get<ApiResponse>(
+        `https://650af6bedfd73d1fab094cf7.mockapi.io/elements`
+      );
+
+      setData(response.data.data);
+      setTotalRows(response.data.total);
+      setLoading(false);
+    } catch (error) {
+      console.log('error', error);
+      return;
+    }
+  };
+
+  // const handlePageChange = (page) => {
+  //   fetchUsers(page);
+  // };
+  // const handlePerRowsChange = async (newPerPage, page) => {
+  //   setLoading(true);
+  //   const response = await axios.get(
+  //     `https://reqres.in/api/users?page=${page}&per_page=${newPerPage}&delay=1`
+  //   );
+  //   setData(response.data.data);
+  //   setPerPage(newPerPage);
+  //   setLoading(false);
+  // };
+
+  const columns = [
+    {
+      name: 'Name',
+      selector: (row: Element) => row.name,
+    },
+    {
+      name: 'Element Category',
+      selector: (row: Element) => row.categoryValueId.toString(),
+    },
+    {
+      name: 'Element Classification',
+      selector: (row: Element) => row.classificationId.toString(),
+    },
+    {
+      name: 'Status',
+      selector: (row: Element) =>
+        row?.status !== undefined
+          ? row.status === true ||
+            (row.status as string).toLowerCase() === 'active'
+            ? 'Active'
+            : capitalizeFirstLetter(row.status.toString())
+          : '',
+    },
+    {
+      name: 'Date & Time Modified',
+      selector: (row: Element) => formatDateTime(row.createdAt.toString()),
+    },
+    {
+      name: 'Modified By',
+      selector: (row: Element) => row.modifiedBy.toString(),
+    },
+    {
+      name: 'Action',
+      cell: (row: Element) => (
+        <div className={styles.moreOutlined}>
+          {/* <Popconfirm
+          title='Delete the task'
+          description='Are you sure to delete this task?'
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText='Yes'
+          cancelText='No'
+        > */}
+          <Popover
+            content={<p onClick={hide}>Close</p>}
+            title='Title'
+            trigger='click'
+            open={open}
+            onOpenChange={handleOpenChange}
+          >
+            <More />
+          </Popover>
+
+          {/* </Popconfirm> */}
+        </div>
+      ),
+    },
+  ];
+
+  const headerStyle = {
+    background: '#2D416F',
+    color: 'white',
+  };
+
+  useEffect(() => {
+    fetchElements();
+  }, []);
+
   return (
     <div className={`${styles.contentWrapper} ${styles.elementWrapper}`}>
       <p className={styles.breadcrumbText}>
@@ -69,50 +174,18 @@ export default function Elements() {
           </button>
         </div>
         <div className={styles.elementWrapper__dataTable}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-              <StyledTableHead>
-                <TableRow>
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell align='right'>
-                    Element Category
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>
-                    Element Classification
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>Status</StyledTableCell>
-                  <StyledTableCell align='right'>
-                    Date & Time Modified
-                  </StyledTableCell>
-                  <StyledTableCell align='right'>Modified By</StyledTableCell>
-                  <StyledTableCell align='right'>Action</StyledTableCell>
-                </TableRow>
-              </StyledTableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component='th' scope='row'>
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align='right'>
-                      {row.calories}
-                    </StyledTableCell>
-                    <StyledTableCell align='right'>{row.fat}</StyledTableCell>
-                    <StyledTableCell align='right'>{row.carbs}</StyledTableCell>
-                    <StyledTableCell align='right'>
-                      {row.protein}
-                    </StyledTableCell>
-                    <StyledTableCell align='right'>
-                      {row.protein}
-                    </StyledTableCell>
-                    <StyledTableCell align='right'>
-                      {row.protein}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <DataTable
+            columns={columns}
+            pagination
+            responsive
+            // @ts-ignore
+            data={data && data?.content}
+            customStyles={{
+              headRow: {
+                style: headerStyle,
+              },
+            }}
+          />
         </div>
       </div>
     </div>
