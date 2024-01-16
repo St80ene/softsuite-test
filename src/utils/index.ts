@@ -23,16 +23,13 @@ export const formatDateTime = (dateString: string) => {
 
   return `${inputDate
     .toLocaleDateString(undefined, dateOptions)
-    .replace(/\//g, '-')} || ${inputDate.toLocaleTimeString(
-    undefined,
-    timeOptions
-  )}`;
+    .replace(/\//g, '-')} || ${inputDate
+    .toLocaleTimeString(undefined, timeOptions)
+    .toLocaleUpperCase()}`;
 };
-
-
 
 export const capitalizeFirstLetter = (str: string) => {
   console.log(str);
-  
+
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};

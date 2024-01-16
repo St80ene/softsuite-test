@@ -9,14 +9,21 @@ export const elementApi = createApi({
     getElements: builder.query<string, void>({
       query: () => `elements`,
     }),
-    getElementLookups: builder.query<string, void>({
+    getElementLookups: builder.query<any, void>({
       query: (id) => `lookups/${id}`,
     }),
-    getElementLookupsCategoryAndValue: builder.query<string, any>({
-      query: ({ categoryId, categoryValueId }) =>
-        `lookups/${categoryId}/lookupvalues/${categoryValueId}`,
+    getElementLookupsCategoryAndValue: builder.query<
+      any,
+      { lookupId: string; lookupValueId: string }
+    >({
+      query: ({ lookupId, lookupValueId }) =>
+        `lookups/${lookupId}/lookupvalues/${lookupValueId}`,
     }),
   }),
 });
 
-export const { useGetElementsQuery } = elementApi;
+export const {
+  useGetElementsQuery,
+  useGetElementLookupsCategoryAndValueQuery,
+  useGetElementLookupsQuery,
+} = elementApi;

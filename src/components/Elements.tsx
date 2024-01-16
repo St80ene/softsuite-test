@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../App.module.scss';
 import DataTable from 'react-data-table-component';
-import axios from 'axios';
 import { message, Popconfirm, Popover } from 'antd';
 import { More } from '../assets/icons';
 import { capitalizeFirstLetter, formatDateTime } from '../utils';
 import { useGetElementsQuery } from '../redux/dataSlice';
+import ElementLookups from './ElementCategory';
 
 interface Element {
   categoryId: number;
@@ -29,15 +29,7 @@ interface Element {
 }
 
 export default function Elements() {
-  const { data: response, error, isLoading } = useGetElementsQuery();
-
-  console.log('response', response);
-
-  interface ApiResponse {
-    [key: string]: any;
-  }
-
-  const [data, setData] = useState([]);
+  const { data, error, isLoading } = useGetElementsQuery();
 
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -62,22 +54,6 @@ export default function Elements() {
     message.error('Click on No');
   };
 
-  const fetchElements = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get<ApiResponse>(
-        `https://650af6bedfd73d1fab094cf7.mockapi.io/elements`
-      );
-
-      setData(response.data.data);
-      setTotalRows(response.data.total);
-      setLoading(false);
-    } catch (error) {
-      console.log('error', error);
-      return;
-    }
-  };
-
   // const handlePageChange = (page) => {
   //   fetchUsers(page);
   // };
@@ -98,11 +74,18 @@ export default function Elements() {
     },
     {
       name: 'Element Category',
-      selector: (row: Element) => row.categoryValueId.toString(),
+      cell: ({ categoryId, categoryValueId }: Element) => (
+        <ElementLookups lookupId={categoryId} lookupValueId={categoryValueId} />
+      ),
     },
     {
       name: 'Element Classification',
-      selector: (row: Element) => row.classificationId.toString(),
+      cell: ({ classificationId, classificationValueId }: Element) => (
+        <ElementLookups
+          lookupId={classificationId}
+          lookupValueId={classificationValueId}
+        />
+      ),
     },
     {
       name: 'Status',
@@ -155,10 +138,6 @@ export default function Elements() {
     color: 'white',
   };
 
-  useEffect(() => {
-    fetchElements();
-  }, []);
-
   return (
     <div className={`${styles.contentWrapper} ${styles.elementWrapper}`}>
       <p className={styles.breadcrumbText}>
@@ -179,12 +158,13 @@ export default function Elements() {
             pagination
             responsive
             // @ts-ignore
-            data={data && data?.content}
+            data={data && data?.data?.content}
             customStyles={{
               headRow: {
                 style: headerStyle,
               },
             }}
+            progressPending={isLoading}
           />
         </div>
       </div>
