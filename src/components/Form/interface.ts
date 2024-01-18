@@ -1,9 +1,9 @@
 export interface InputProps {
   label: string;
-  value: any;
-  name: string;
+  value?: any;
+  name?: string;
   placeholder?: string;
-  classes?: string;
+  className?: string;
   onChange: () => void;
-  options?: any;
+  options?: { label: string; value: any }[];
 }

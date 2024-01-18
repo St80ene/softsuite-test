@@ -5,4 +5,5 @@ export { ReactComponent as More } from './more.svg';
 export { ReactComponent as Edit } from './Edit.svg';
 export { ReactComponent as Delete } from './Delete.svg';
 export { ReactComponent as Show } from './Show.svg';
-export { ReactComponent as DateIcon } from './date.svg';
+export { ReactComponent as ArrowLeft } from './arrow-left.svg';
+export { ReactComponent as SearchIcon } from './search.svg';

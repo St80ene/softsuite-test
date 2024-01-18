@@ -6,7 +6,7 @@ const InputTextArea = ({
   label,
   value,
   name,
-  classes,
+  className = '',
   onChange,
   placeholder,
 }: InputProps) => {
@@ -17,10 +17,9 @@ const InputTextArea = ({
         value={value}
         placeholder={placeholder}
         name={name}
-        className={`${styles.inputWrapper__inputStyle} ${
-          styles.inputWrapper__textAreaStyle
-        } ${classes || ''}`}
+        className={`${styles.inputWrapper__inputStyle} ${styles.inputWrapper__textAreaStyle} ${className}`}
         onChange={onChange}
+        required
       />
     </div>
   );

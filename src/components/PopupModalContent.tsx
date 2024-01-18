@@ -5,6 +5,7 @@ interface Items {
   title: string;
   Icon: any;
   onClick?: (...args: any[]) => void;
+  data?: any;
 }
 
 const PopupModalContent = ({ listItems }: { listItems: Items[] }) => {

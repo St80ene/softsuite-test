@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Layout from './components/Layout';
 import Elements from './pages/Elements';
+import ElementLink from './pages/Elements/ElementLink';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         {/* <Navigate to='/elements' /> */}
         <Route path={'/'} element={<Home />} />
         <Route path={'/elements'} element={<Elements />} />
+        <Route path={'/elements/:id/link'} element={<ElementLink />} />
       </Route>
     </Routes>
   );

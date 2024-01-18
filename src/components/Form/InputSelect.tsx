@@ -6,7 +6,7 @@ const InputSelect = ({
   label,
   value,
   name,
-  classes,
+  className = '',
   placeholder,
   onChange,
   options,
@@ -15,15 +15,22 @@ const InputSelect = ({
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <select
+        required
         value={value}
         name={name}
-        className={`${styles.inputWrapper__inputStyle} ${classes || ''}`}
+        className={`${styles.inputWrapper__inputStyle} ${className}`}
         onChange={onChange}
       >
         <option value='' disabled hidden>
           {placeholder}
         </option>
-        {options}
+        {options?.map(
+          ({ value, label }: { label: string; value: string }, index) => (
+            <option value={value} key={index}>
+              {label}
+            </option>
+          )
+        )}
       </select>
     </div>
   );

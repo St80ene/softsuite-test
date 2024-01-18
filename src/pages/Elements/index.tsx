@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
-import { message, Popconfirm, Modal, Popover } from 'antd';
-import { Delete, Edit, More, Show, DateIcon } from '../../assets/icons';
+import { Button, Input, message, Popover } from 'antd';
+import { Delete, Edit, More, SearchIcon, Show } from '../../assets/icons';
 import { capitalizeFirstLetter, formatDateTime } from '../../utils';
 import { useGetElementsQuery } from '../../redux/dataSlice';
 import ElementLookups from '../../components/ElementCategory';
 import PopupModalContent from '../../components/PopupModalContent';
 import FormModal from '../../components/Form/FormModal';
+import elementStyles from './element.module.scss';
+import { useNavigate } from 'react-router-dom';
 
+const { Search } = Input;
 interface Element {
   categoryId: number;
   categoryValueId: number;
@@ -36,6 +39,8 @@ export default function Elements() {
     createModal: false,
     actionOpened: null,
   });
+
+  const navigate = useNavigate();
 
   const onOpenChange = (item: any) =>
     setState((prev) => ({
@@ -126,7 +131,12 @@ export default function Elements() {
       name: 'Action',
       cell: (row: Element) => {
         const popItems = [
-          { title: 'View Element Links', Icon: Show },
+          {
+            title: 'View Element Links',
+            Icon: Show,
+            data: row,
+            onClick: () => navigate(`${row?.id}/link`, { state: row }),
+          },
           { title: 'Edit Element', Icon: Edit },
           { title: 'Delete Element', Icon: Delete },
         ];
@@ -162,24 +172,50 @@ export default function Elements() {
     color: 'white',
   };
 
+  const onSearch = (value: string) => console.log(value);
+
   return (
-    <div className={`${styles.contentWrapper} ${styles.elementWrapper}`}>
-      <p className={styles.breadcrumbText}>
+    <div
+      className={`${elementStyles.contentWrapper} ${elementStyles.elementWrapper}`}
+    >
+      <p className={elementStyles.breadcrumbText}>
         Payroll Management <span className={styles.breadcrumb}>{'>'} </span>{' '}
         Elements setup <span className={styles.breadcrumb}>{'>'}</span> Elements
       </p>
-      <div className={styles.elementWrapper__elementContainer}>
+      <div className={elementStyles.elementWrapper__elementContainer}>
         <h3>Elements</h3>
-        <div className={styles.elementWrapper__elementManagement}>
-          <button>Create Element +</button>
+        <div className={elementStyles.elementWrapper__elementManagement}>
+          <Search
+            placeholder='Search for element'
+            onSearch={onSearch}
+            allowClear
+            style={{
+              width: 283,
+            }}
+            enterButton={
+              <Button
+                style={{
+                  background: '#4BAA79',
+                  color: 'white',
+                  border: 'none',
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <SearchIcon />
+              </Button>
+            }
+          />
           <button
-            className={styles.elementWrapper__createButton}
+            className={elementStyles.elementWrapper__createButton}
             onClick={toggleCreateModal}
           >
             Create Element +
           </button>
         </div>
-        <div className={styles.elementWrapper__dataTable}>
+        <div className={elementStyles.elementWrapper__dataTable}>
           <DataTable
             columns={columns}
             pagination
