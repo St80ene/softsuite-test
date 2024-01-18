@@ -29,7 +29,5 @@ export const formatDateTime = (dateString: string) => {
 };
 
 export const capitalizeFirstLetter = (str: string) => {
-  console.log(str);
-
   return str.charAt(0).toUpperCase() + str.slice(1);
 };

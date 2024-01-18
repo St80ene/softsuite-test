@@ -15,8 +15,6 @@ const ElementLookups: React.FC<ElementCategoryProps> = memo(
       lookupValueId: lookupValueId.toString(),
     });
 
-    console.log('data', data);
-
     return <div>{isLoading ? <Spin /> : <p>{data?.name || ''}</p>}</div>;
   }
 );

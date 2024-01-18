@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import styles from '../App.module.scss';
+import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
-import { message, Popconfirm, Popover } from 'antd';
-import { More } from '../assets/icons';
-import { capitalizeFirstLetter, formatDateTime } from '../utils';
-import { useGetElementsQuery } from '../redux/dataSlice';
-import ElementLookups from './ElementCategory';
+import { message, Popconfirm, Modal, Popover } from 'antd';
+import { Delete, Edit, More, Show, DateIcon } from '../../assets/icons';
+import { capitalizeFirstLetter, formatDateTime } from '../../utils';
+import { useGetElementsQuery } from '../../redux/dataSlice';
+import ElementLookups from '../../components/ElementCategory';
+import PopupModalContent from '../../components/PopupModalContent';
+import FormModal from '../../components/Form/FormModal';
 
 interface Element {
   categoryId: number;
@@ -30,19 +32,16 @@ interface Element {
 
 export default function Elements() {
   const { data, error, isLoading } = useGetElementsQuery();
+  const [{ actionOpened, createModal }, setState] = useState({
+    createModal: false,
+    actionOpened: null,
+  });
 
-  const [loading, setLoading] = useState(false);
-  const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(10);
-  const [open, setOpen] = useState(false);
-
-  const hide = () => {
-    setOpen(false);
-  };
-
-  const handleOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
-  };
+  const onOpenChange = (item: any) =>
+    setState((prev) => ({
+      ...prev,
+      actionOpened: actionOpened === item.id ? null : item.id,
+    }));
 
   const confirm = (e: any) => {
     console.log(e);
@@ -53,6 +52,24 @@ export default function Elements() {
     console.log(e);
     message.error('Click on No');
   };
+
+  const handleOk = () =>
+    setState((prev) => ({
+      ...prev,
+      createModal: false,
+    }));
+
+  const handleCancel = () =>
+    setState((prev) => ({
+      ...prev,
+      createModal: false,
+    }));
+
+  const toggleCreateModal = () =>
+    setState((prev) => ({
+      ...prev,
+      createModal: true,
+    }));
 
   // const handlePageChange = (page) => {
   //   fetchUsers(page);
@@ -107,9 +124,15 @@ export default function Elements() {
     },
     {
       name: 'Action',
-      cell: (row: Element) => (
-        <div className={styles.moreOutlined}>
-          {/* <Popconfirm
+      cell: (row: Element) => {
+        const popItems = [
+          { title: 'View Element Links', Icon: Show },
+          { title: 'Edit Element', Icon: Edit },
+          { title: 'Delete Element', Icon: Delete },
+        ];
+        return (
+          <div className={styles.moreOutlined}>
+            {/* <Popconfirm
           title='Delete the task'
           description='Are you sure to delete this task?'
           onConfirm={confirm}
@@ -117,19 +140,20 @@ export default function Elements() {
           okText='Yes'
           cancelText='No'
         > */}
-          <Popover
-            content={<p onClick={hide}>Close</p>}
-            title='Title'
-            trigger='click'
-            open={open}
-            onOpenChange={handleOpenChange}
-          >
-            <More />
-          </Popover>
+            <Popover
+              content={<PopupModalContent listItems={popItems} />}
+              title={null}
+              trigger='click'
+              open={actionOpened === row?.id}
+              onOpenChange={() => onOpenChange(row)}
+            >
+              <More />
+            </Popover>
 
-          {/* </Popconfirm> */}
-        </div>
-      ),
+            {/* </Popconfirm> */}
+          </div>
+        );
+      },
     },
   ];
 
@@ -148,7 +172,10 @@ export default function Elements() {
         <h3>Elements</h3>
         <div className={styles.elementWrapper__elementManagement}>
           <button>Create Element +</button>
-          <button className={styles.elementWrapper__createButton}>
+          <button
+            className={styles.elementWrapper__createButton}
+            onClick={toggleCreateModal}
+          >
             Create Element +
           </button>
         </div>
@@ -168,6 +195,12 @@ export default function Elements() {
           />
         </div>
       </div>
+
+      <FormModal
+        createModal={createModal}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      />
     </div>
   );
 }
