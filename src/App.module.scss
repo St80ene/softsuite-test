@@ -10,6 +10,40 @@
   width: 100%;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &__heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: '#333';
+  }
+
+  &__message {
+    font-size: 1rem;
+    color: #666;
+  }
+
+  &__link {
+    color: white;
+    text-decoration: none;
+  }
+
+  &__linkButton {
+    color: #4baa79;
+    border-radius: 5px;
+    background-color: 1px solid #4baa79;
+    padding: 7px;
+    border: none;
+    border: 1px solid #4baa79;
+    cursor: pointer;
+  }
+}
+
 .header {
   width: 100%;
   height: 97px;
@@ -47,11 +81,6 @@
   max-width: 16rem;
 }
 
-.role {
-  // margin-top: 0;
-  // font-size: 12px;
-}
-
 .headerNav {
   width: 20%;
   max-width: 302px;
@@ -85,52 +114,29 @@
   }
 }
 
-.contentWrapper {
+.moreOutlined {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.popupModalContent {
+  display: flex;
+  cursor: pointer;
   width: 100%;
-  height: 100%;
-  background-color: #f6f7f9;
-}
+  min-width: 100px;
+  gap: 9px;
+  align-items: center;
+  padding-right: 2px;
+  padding-left: 2px;
 
-.elementWrapper {
-  padding-left: 30px;
-
-  &__elementContainer {
-    border-radius: 10px 10px 0px 0px;
-    width: 90%;
-    padding: 24px;
-    background-color: #ffffff;
+  & > p {
+    margin: 4px;
   }
 
-  &__elementManagement {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #f4f6f8;
-  }
-
-  &__createButton {
-    padding: 16px;
-    background-color: #4baa79;
-    color: #ffffff;
-    font-weight: 700px;
-    text-align: center;
+  &:hover {
+    border: 1px solid #4baa79;
     border-radius: 4px;
-    border: none;
-    cursor: pointer;
   }
-
-  &__dataTable {
-    margin-top: 24px;
-  }
-}
-
-.breadcrumbText {
-  color: #abb3c5;
-  font-weight: 700;
-  line-height: 19.81px;
-}
-
-.breadcrumbIcon {
-  // padding-top: 2%;
 }
