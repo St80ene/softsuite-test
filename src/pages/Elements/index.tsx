@@ -10,8 +10,25 @@ import PopupModalContent from '../../components/PopupModalContent';
 import FormModal from '../../components/Form/FormModal';
 import elementStyles from './element.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 const { Search } = Input;
+
+type Inputs = {
+  name: string;
+  classification: string;
+  category: string;
+  payrun: any;
+  description: any;
+  processingType: string;
+  prorate: string;
+  reportingName: string;
+  status: string | boolean;
+  modifiedBy: string;
+  effectiveEndDate: string;
+  effectiveStartDate: string;
+  payFrequency: string;
+};
 interface Element {
   categoryId: number;
   categoryValueId: number;
@@ -31,9 +48,19 @@ interface Element {
   prorate: string;
   reportingName: string;
   status: string | boolean;
+  selectedMonths: [string];
 }
 
 export default function Elements() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
   const { data, error, isLoading } = useGetElementsQuery();
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
@@ -48,15 +75,15 @@ export default function Elements() {
       actionOpened: actionOpened === item.id ? null : item.id,
     }));
 
-  const confirm = (e: any) => {
-    console.log(e);
-    message.success('Click on Yes');
-  };
+  // const confirm = (e: any) => {
+  //   console.log(e);
+  //   message.success('Click on Yes');
+  // };
 
-  const cancel = (e: any) => {
-    console.log(e);
-    message.error('Click on No');
-  };
+  // const cancel = (e: any) => {
+  //   console.log(e);
+  //   message.error('Click on No');
+  // };
 
   const handleOk = () =>
     setState((prev) => ({
@@ -236,6 +263,8 @@ export default function Elements() {
         createModal={createModal}
         handleCancel={handleCancel}
         handleOk={handleOk}
+        register={register}
+        errors={errors}
       />
     </div>
   );

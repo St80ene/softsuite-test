@@ -19,6 +19,12 @@ export const elementApi = createApi({
       query: ({ lookupId, lookupValueId }) =>
         `lookups/${lookupId}/lookupvalues/${lookupValueId}`,
     }),
+    getElementLinks: builder.query<any, any>({
+      query: (id) => `elements/${id}/elementlinks`,
+    }),
+    viewElementLink: builder.query<any, any>({
+      query: ({ elementId, id }) => `elements/${elementId}/elementlinks/${id}`,
+    }),
   }),
 });
 
@@ -26,4 +32,5 @@ export const {
   useGetElementsQuery,
   useGetElementLookupsCategoryAndValueQuery,
   useGetElementLookupsQuery,
+  useGetElementLinksQuery,
 } = elementApi;

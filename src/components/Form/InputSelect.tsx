@@ -4,22 +4,20 @@ import { InputProps } from './interface';
 
 const InputSelect = ({
   label,
-  value,
   name,
   className = '',
   placeholder,
-  onChange,
   options,
+  register,
+  errors,
 }: InputProps) => {
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <select
-        required
-        value={value}
         name={name}
         className={`${styles.inputWrapper__inputStyle} ${className}`}
-        onChange={onChange}
+        {...(register(name), { required: true })}
       >
         <option value='' disabled hidden>
           {placeholder}
@@ -32,6 +30,7 @@ const InputSelect = ({
           )
         )}
       </select>
+      {errors['name'] && <span>This field is required</span>}
     </div>
   );
 };

@@ -1,27 +1,20 @@
 import React from 'react';
 import styles from './input.module.scss';
 import { InputProps } from './interface';
+import { Switch } from 'antd';
 
-const InputTextArea = ({
-  label,
-  name,
-  className = '',
-  placeholder,
-  register,
-  errors,
-}: InputProps) => {
+const InputSwitch = ({ label, name, register, errors }: InputProps) => {
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
-      <textarea
-        placeholder={placeholder}
-        name={name}
-        className={`${styles.inputWrapper__inputStyle} ${styles.inputWrapper__textAreaStyle} ${className}`}
+      <Switch
+        defaultChecked
         {...(register(name), { required: true })}
+        // className={`${styles.inputWrapper__inputStyle} ${className}`}
       />
       {errors['name'] && <span>This field is required</span>}
     </div>
   );
 };
 
-export default InputTextArea;
+export default InputSwitch;

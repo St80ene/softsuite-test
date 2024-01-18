@@ -1,126 +1,131 @@
 import React from 'react';
-import styles from '../../App.module.scss';
 import inputStyles from '../../components/Form/input.module.scss';
 import InputText from '../../components/Form/InputText';
 import InputSelect from '../../components/Form/InputSelect';
 import InputTextArea from '../../components/Form/InputTextArea';
 import InputDate from '../../components/Form/InputDate';
 import RadioInput from '../../components/Form/RadioInput';
+import InputSwitch from '../../components/Form/InputSwitch';
 
-export const Tab1 = ({}) => {
+export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
         <InputText
           label='Name'
-          name=''
-          value='Etiene'
+          name='name'
           placeholder='Input Name'
-          onChange={() => console.log('value')}
+          register={register}
+          errors={errors}
         />
         <InputSelect
           label='Element Classification'
-          name=''
-          value='Etiene'
+          name='classification'
           placeholder='Select Classification'
-          onChange={() => console.log('value')}
           options={[
             { label: 'Classification 1', value: 'Classification1' },
             { label: 'Classification 2', value: 'Classification2' },
           ]}
+          register={register}
+          errors={errors}
         />
       </div>
 
       <div className={inputStyles.inputContainer}>
         <InputSelect
           label='Element Category'
-          name=''
-          value='Etiene'
+          name='category'
           placeholder='Select Element Category'
-          onChange={() => console.log('value')}
           options={[
             { label: 'Category 1', value: 'Category1' },
             { label: 'Category 2', value: 'Category2' },
           ]}
+          register={register}
+          errors={errors}
         />
 
         <InputSelect
           label='Payrun'
-          name=''
-          value='Etiene'
+          name='payrun'
           placeholder='Select Payrun'
-          onChange={() => console.log('value')}
           options={[
             { label: 'Payrun 1', value: 'Payrun1' },
-            { label: 'Payrun 2', value: 'Payrun2' },
-            // Add more options as needed
+            { label: 'Close', value: 'Payrun2' },
           ]}
+          register={register}
+          errors={errors}
         />
       </div>
 
       <InputTextArea
         label='Description'
-        name=''
-        value='Etiene'
-        placeholder='Input Decription'
-        onChange={() => console.log('value')}
+        name='description'
+        placeholder='Input Description'
+        register={register}
+        errors={errors}
       />
 
       <InputTextArea
         label='Reporting Name'
-        name=''
-        value='Etiene'
+        name='modifiedBy'
         placeholder='Input Reporting Name'
-        onChange={() => console.log('value')}
+        register={register}
+        errors={errors}
       />
     </div>
   );
 };
 
-export const Tab2 = ({}) => {
+export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
         <InputDate
           label='Effective Start Date'
-          name=''
-          value='Etiene'
+          name='effectiveStartDate'
           placeholder='Select Date'
-          onChange={() => console.log('value')}
+          register={register}
+          errors={errors}
         />
         <InputDate
           label='Effective End Date'
-          name=''
-          value='Etiene'
+          name='effectiveEndDate'
           placeholder='Select Date'
-          onChange={() => console.log('value')}
+          register={register}
+          errors={errors}
         />
       </div>
 
       <div className={inputStyles.inputContainer}>
         <RadioInput
           label='Processing Type'
-          name=''
-          value='Etiene'
+          name='processingType'
           placeholder='Select Element Category'
-          onChange={() => console.log('value')}
+          options={[
+            { label: 'Open', value: 'open' },
+            { label: 'Close', value: 'close' },
+          ]}
+          register={register}
+          errors={errors}
         />
 
         <RadioInput
           label='Pay Frequency'
-          name=''
-          value='Etiene'
+          name='payFrequency'
           placeholder='Select Element Category'
-          onChange={() => console.log('value')}
+          options={[
+            { label: 'Monthly', value: 'monthly' },
+            { label: 'Selected Months', value: 'selected months' },
+          ]}
+          register={register}
+          errors={errors}
         />
       </div>
 
       <InputSelect
         label='Selected Pay Months'
-        name=''
-        value='Etiene'
+        name='selectedMonths'
         placeholder='Select Payrun'
-        onChange={() => console.log('value')}
         className={inputStyles.monthPay}
         options={[
           { label: 'January', value: 'january' },
@@ -136,23 +141,23 @@ export const Tab2 = ({}) => {
           { label: 'November', value: 'november' },
           { label: 'December', value: 'december' },
         ]}
+        register={register}
+        errors={errors}
       />
 
       <div className={inputStyles.inputContainer}>
         <RadioInput
           label='Prorate'
-          name=''
-          value='Etiene'
+          name='prorate'
           placeholder='Select Element Category'
-          onChange={() => console.log('value')}
+          register={register}
+          errors={errors}
         />
-
-        <RadioInput
+        <InputSwitch
           label='Status'
-          name=''
-          value='Etiene'
-          placeholder='Select Element Category'
-          onChange={() => console.log('value')}
+          name='status'
+          register={register}
+          errors={errors}
         />
       </div>
     </div>

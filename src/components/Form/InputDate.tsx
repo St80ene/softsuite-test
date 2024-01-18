@@ -4,23 +4,22 @@ import { InputProps } from './interface';
 
 const InputDate = ({
   label,
-  value,
   name,
   className,
   placeholder,
-  onChange,
+  register,
+  errors,
 }: InputProps) => {
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <input
         type='date'
-        value={value}
         placeholder={placeholder}
         className={`${styles.inputWrapper__inputStyle} ${className}`}
-        onChange={onChange}
-        required
+        {...(register(name), { required: true })}
       />
+      {errors['name'] && <span>This field is required</span>}
     </div>
   );
 };

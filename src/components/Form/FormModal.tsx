@@ -8,6 +8,8 @@ interface ModalProps {
   createModal: boolean;
   handleOk: (...args: any[]) => void;
   handleCancel: (...args: any[]) => void;
+  register: any;
+  errors: any;
 }
 
 const tabList = [Tab1, Tab2];
@@ -16,6 +18,8 @@ export default function FormModal({
   createModal,
   handleOk,
   handleCancel,
+  register,
+  errors,
 }: ModalProps) {
   const [currentTab, setState] = useState(0);
 
@@ -32,7 +36,7 @@ export default function FormModal({
       okButtonProps={{ style: { display: 'none' } }}
     >
       <form action=''>
-        <Tab />
+        <Tab register={register} errors={errors} />
         <div className={inputStyles.modalContent}>
           <div className={inputStyles.inputWrapper__buttonWrapper}>
             <button
