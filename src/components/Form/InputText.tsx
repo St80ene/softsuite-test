@@ -14,13 +14,11 @@ const InputText = ({
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <input
-        name={name}
-        type='text'
         placeholder={placeholder}
         className={`${styles.inputWrapper__inputStyle} ${className}`}
         {...(register(name), { required: true })}
       />
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };

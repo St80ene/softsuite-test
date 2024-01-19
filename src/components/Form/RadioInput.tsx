@@ -3,7 +3,7 @@ import styles from './input.module.scss';
 import { InputProps } from './interface';
 
 const RadioInput = ({ label, name, options, register, errors }: InputProps) => {
-  const inputRegister = register(name);
+  const inputRegister = register(name, { required: 'This field is required' });
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
@@ -23,7 +23,7 @@ const RadioInput = ({ label, name, options, register, errors }: InputProps) => {
           </>
         ))}
       </div>
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };

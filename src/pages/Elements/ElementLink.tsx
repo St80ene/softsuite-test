@@ -6,6 +6,11 @@ import { Button, Input } from 'antd';
 import { useGetElementLinksQuery } from '../../redux/dataSlice';
 import DataTable from 'react-data-table-component';
 import { useState } from 'react';
+import {
+  ElementLookups,
+  capitalizeFirstLetter,
+  formatLinkDateTime,
+} from '../../utils';
 
 const { Search } = Input;
 
@@ -40,6 +45,9 @@ interface Element {
 
 const ElementLink = () => {
   const { id } = useParams();
+  const { state: elementLinkDetails } = useLocation();
+
+  console.log('elementLinkDetails', elementLinkDetails);
 
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
@@ -137,26 +145,271 @@ const ElementLink = () => {
       </p>
 
       <div className={elementStyles.elementWrapper__elementContainer}>
-        <h3>Element Details</h3>
         <div className={elementStyles.elementWrapper__elementManagement}>
           <Link to='/elements'>
             <ArrowLeft />
           </Link>
         </div>
-        <div className={elementStyles.elementWrapper__dataTable}>
-          {/* <DataTable
-            columns={columns}
-            pagination
-            responsive
-            // @ts-ignore
-            data={data && data?.data?.content}
-            customStyles={{
-              headRow: {
-                style: headerStyle,
-              },
-            }}
-            progressPending={isLoading}
-          /> */}
+        <h3>Element Details</h3>
+        <div className={elementStyles.elementDetailsContainer}>
+          {/* First row */}
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Element Name
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.name}
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Element Classification{' '}
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              <ElementLookups
+                lookupId={elementLinkDetails?.classificationId}
+                lookupValueId={elementLinkDetails?.classificationValueId}
+              />
+            </span>
+          </div>
+
+          {/* Next row */}
+
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Element Category
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              <ElementLookups
+                lookupId={elementLinkDetails?.categoryId}
+                lookupValueId={elementLinkDetails?.categoryValueId}
+              />
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Payrun
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {ElementLookups({
+                lookupId: elementLinkDetails?.payRunId,
+                lookupValueId: elementLinkDetails?.payRunValueId,
+              })}
+            </span>
+          </div>
+
+          {/* Next row */}
+
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              description
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.description}
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              reporting Name
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.reportingName}
+            </span>
+          </div>
+
+          {/* Next Row */}
+
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Effective Start Date
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.effectiveStartDate &&
+                formatLinkDateTime(elementLinkDetails?.effectiveStartDate)}
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Effective END Date
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.effectiveEndDate &&
+                formatLinkDateTime(elementLinkDetails?.effectiveEndDate)}
+            </span>
+          </div>
+
+          {/* Next row */}
+
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              PROCESSING TYPE
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              <ElementLookups
+                lookupId={elementLinkDetails?.categoryId}
+                lookupValueId={elementLinkDetails?.categoryValueId}
+              />
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              PAY frequency
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.payFrequency}
+            </span>
+          </div>
+
+          {/* Next Row */}
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Pay Months
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.selectedMonths?.join(', ')}
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Prorate
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.prorate}
+            </span>
+          </div>
+
+          {/* Next Row */}
+
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            >
+              Status
+            </span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            >
+              {elementLinkDetails?.status !== undefined
+                ? elementLinkDetails.status === true ||
+                  (elementLinkDetails.status as string).toLowerCase() ===
+                    'active'
+                  ? 'Active'
+                  : capitalizeFirstLetter(elementLinkDetails.status.toString())
+                : ''}
+            </span>
+          </div>
+          <div
+            className={elementStyles.elementDetailsContainer__elementContent}
+          >
+            <span
+              className={elementStyles.elementDetailsContainer__elementHeading}
+            ></span>
+            <span
+              className={
+                elementStyles.elementDetailsContainer__elementDetailText
+              }
+            ></span>
+          </div>
         </div>
       </div>
 

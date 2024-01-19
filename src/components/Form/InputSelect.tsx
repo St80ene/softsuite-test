@@ -19,9 +19,9 @@ const InputSelect = ({
         className={`${styles.inputWrapper__inputStyle} ${className}`}
         {...(register(name), { required: true })}
       >
-        <option value='' disabled hidden>
+        {/* <option value='' disabled hidden>
           {placeholder}
-        </option>
+        </option> */}
         {options?.map(
           ({ value, label }: { label: string; value: string }, index) => (
             <option value={value} key={index}>
@@ -30,7 +30,7 @@ const InputSelect = ({
           )
         )}
       </select>
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };

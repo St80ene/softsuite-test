@@ -19,7 +19,7 @@ const InputDate = ({
         className={`${styles.inputWrapper__inputStyle} ${className}`}
         {...(register(name), { required: true })}
       />
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };

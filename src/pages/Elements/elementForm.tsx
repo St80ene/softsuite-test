@@ -67,7 +67,7 @@ export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
 
       <InputTextArea
         label='Reporting Name'
-        name='modifiedBy'
+        name='reportingName'
         placeholder='Input Reporting Name'
         register={register}
         errors={errors}

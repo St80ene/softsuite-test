@@ -19,7 +19,7 @@ const InputTextArea = ({
         className={`${styles.inputWrapper__inputStyle} ${styles.inputWrapper__textAreaStyle} ${className}`}
         {...(register(name), { required: true })}
       />
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };
