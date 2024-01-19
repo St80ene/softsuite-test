@@ -7,7 +7,9 @@ import { useGetElementLinksQuery } from '../../redux/dataSlice';
 import DataTable from 'react-data-table-component';
 import { useState } from 'react';
 import {
+  DepartmentLookup,
   ElementLookups,
+  SubOrganizationLookup,
   capitalizeFirstLetter,
   formatLinkDateTime,
 } from '../../utils';
@@ -15,6 +17,7 @@ import {
 const { Search } = Input;
 
 interface Element {
+  id: string;
   name: string;
   elementId: number;
   suborganizationId: number;
@@ -47,8 +50,6 @@ const ElementLink = () => {
   const { id } = useParams();
   const { state: elementLinkDetails } = useLocation();
 
-  console.log('elementLinkDetails', elementLinkDetails);
-
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
     actionOpened: null,
@@ -71,19 +72,28 @@ const ElementLink = () => {
     },
     {
       name: 'Sub-Organization',
-      selector: (row: Element) => row.name,
+      cell: ({ suborganizationId }: Element) => (
+        <SubOrganizationLookup id={suborganizationId} />
+      ),
     },
     {
       name: 'Department',
-      selector: (row: Element) => row.name,
+      cell: ({ suborganizationId, id }: Element) => (
+        <DepartmentLookup suborganizationId={suborganizationId} id={id} />
+      ),
     },
     {
       name: 'Employee Category',
-      selector: (row: Element) => row.name,
+      cell: ({ employeeCategoryId, employeeCategoryValueId }: Element) => (
+        <ElementLookups
+          lookupId={employeeCategoryId}
+          lookupValueId={employeeCategoryValueId}
+        />
+      ),
     },
     {
       name: 'Amount',
-      selector: (row: Element) => row.name,
+      selector: (row: Element) => row.amount,
     },
     {
       name: 'Details',

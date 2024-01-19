@@ -7,3 +7,4 @@ export { ReactComponent as Delete } from './Delete.svg';
 export { ReactComponent as Show } from './Show.svg';
 export { ReactComponent as ArrowLeft } from './arrow-left.svg';
 export { ReactComponent as SearchIcon } from './search.svg';
+export { ReactComponent as FilterIcon } from './Filter.svg';
