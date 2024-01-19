@@ -12,7 +12,7 @@ const InputSwitch = ({ label, name, register, errors }: InputProps) => {
         {...(register(name), { required: true })}
         // className={`${styles.inputWrapper__inputStyle} ${className}`}
       />
-      {errors['name'] && <span>This field is required</span>}
+      {errors[name] && <span>This field is required</span>}
     </div>
   );
 };

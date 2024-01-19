@@ -12,8 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    background-color: #f4f6f8;
+    padding: 2px;
+    background-color: #ffff;
   }
 
   &__createButton {
@@ -42,4 +42,41 @@
   color: #abb3c5;
   font-weight: 700;
   line-height: 19.81px;
+}
+
+.elementDetailsContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__elementContent {
+    display: flex;
+    padding: 8px 4px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 49%;
+    border: 1px solid #d4d8e2;
+    background: #fff;
+  }
+
+  &__elementHeading {
+    display: inline-block;
+    color: #7e7e7e;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.33px;
+    text-transform: uppercase;
+  }
+
+  &__elementDetailText {
+    color: #2d416f;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
 }

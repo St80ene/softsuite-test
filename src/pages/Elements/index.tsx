@@ -3,9 +3,12 @@ import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
 import { Button, Input, message, Popover } from 'antd';
 import { Delete, Edit, More, SearchIcon, Show } from '../../assets/icons';
-import { capitalizeFirstLetter, formatDateTime } from '../../utils';
+import {
+  capitalizeFirstLetter,
+  ElementLookups,
+  formatDateTime,
+} from '../../utils';
 import { useGetElementsQuery } from '../../redux/dataSlice';
-import ElementLookups from '../../components/ElementCategory';
 import PopupModalContent from '../../components/PopupModalContent';
 import FormModal from '../../components/Form/FormModal';
 import elementStyles from './element.module.scss';
@@ -56,8 +59,10 @@ export default function Elements() {
     register,
     handleSubmit,
     watch,
+    trigger,
+    getValues,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: 'onBlur' });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -265,6 +270,8 @@ export default function Elements() {
         handleOk={handleOk}
         register={register}
         errors={errors}
+        trigger={trigger}
+        getValues={getValues}
       />
     </div>
   );
