@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
 import { Button, Input, message, Popover } from 'antd';
-import { Delete, Edit, More, SearchIcon, Show } from '../../assets/icons';
+import {
+  Delete,
+  Edit,
+  FilterIcon,
+  More,
+  SearchIcon,
+  Show,
+} from '../../assets/icons';
 import {
   capitalizeFirstLetter,
   ElementLookups,
@@ -217,29 +224,32 @@ export default function Elements() {
       <div className={elementStyles.elementWrapper__elementContainer}>
         <h3>Elements</h3>
         <div className={elementStyles.elementWrapper__elementManagement}>
-          <Search
-            placeholder='Search for element'
-            onSearch={onSearch}
-            allowClear
-            style={{
-              width: 283,
-            }}
-            enterButton={
-              <Button
-                style={{
-                  background: '#4BAA79',
-                  color: 'white',
-                  border: 'none',
-                  fontSize: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <SearchIcon />
-              </Button>
-            }
-          />
+          <div>
+            <Search
+              placeholder='Search for element'
+              onSearch={onSearch}
+              allowClear
+              style={{
+                width: 283,
+              }}
+              enterButton={
+                <Button
+                  style={{
+                    background: '#4BAA79',
+                    color: 'white',
+                    border: 'none',
+                    fontSize: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              }
+            />
+            <FilterIcon />
+          </div>
           <button
             className={elementStyles.elementWrapper__createButton}
             onClick={toggleCreateModal}

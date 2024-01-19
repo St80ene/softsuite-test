@@ -22,8 +22,12 @@ export const elementApi = createApi({
     getElementLinks: builder.query<any, any>({
       query: (id) => `elements/${id}/elementlinks`,
     }),
-    viewElementLink: builder.query<any, any>({
-      query: ({ elementId, id }) => `elements/${elementId}/elementlinks/${id}`,
+    getSubOrganization: builder.query<any, any>({
+      query: (id) => `suborganizations/${id}`,
+    }),
+    getDepartment: builder.query<any, any>({
+      query: ({ suborganizationId, id }) =>
+        `suborganizations/${suborganizationId}/departments/${id}`,
     }),
   }),
 });
@@ -33,4 +37,6 @@ export const {
   useGetElementLookupsCategoryAndValueQuery,
   useGetElementLookupsQuery,
   useGetElementLinksQuery,
+  useGetDepartmentQuery,
+  useGetSubOrganizationQuery,
 } = elementApi;

@@ -1,6 +1,8 @@
 import {
+  useGetDepartmentQuery,
   useGetElementLookupsCategoryAndValueQuery,
   useGetElementLookupsQuery,
+  useGetSubOrganizationQuery,
 } from '../redux/dataSlice';
 
 interface ElementCategoryProps {
@@ -78,6 +80,27 @@ export const ElementLookups = ({
     lookupId: lookupId.toString(),
     lookupValueId: lookupValueId.toString(),
   });
+
+  return data?.name;
+};
+
+export const DepartmentLookup = ({
+  suborganizationId,
+  id,
+}: {
+  suborganizationId: any;
+  id: any;
+}) => {
+  const { data } = useGetDepartmentQuery({
+    suborganizationId: suborganizationId.toString(),
+    id: id.toString(),
+  });
+
+  return data?.name;
+};
+
+export const SubOrganizationLookup = (id: any) => {
+  const { data } = useGetSubOrganizationQuery(id.toString());
 
   return data?.name;
 };
