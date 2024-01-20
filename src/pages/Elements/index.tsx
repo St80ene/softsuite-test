@@ -19,7 +19,7 @@ import { useGetElementsQuery } from '../../redux/dataSlice';
 import PopupModalContent from '../../components/PopupModalContent';
 import FormModal from '../../components/Form/FormModal';
 import elementStyles from './element.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 const { Search } = Input;
@@ -62,6 +62,7 @@ interface Element {
 }
 
 export default function Elements() {
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -218,8 +219,38 @@ export default function Elements() {
       className={`${elementStyles.contentWrapper} ${elementStyles.elementWrapper}`}
     >
       <p className={elementStyles.breadcrumbText}>
-        Payroll Management <span className={styles.breadcrumb}>{'>'} </span>{' '}
-        Elements setup <span className={styles.breadcrumb}>{'>'}</span> Elements
+        <Link
+          className={`${
+            location.pathname === '/'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/'
+        >
+          Payroll Management{' '}
+        </Link>
+        <span className={elementStyles.breadcrumbArrow}>&gt;</span>
+        <Link
+          className={`${
+            location.pathname === '/'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/elements'
+        >
+          Elements setup
+        </Link>
+        <span className={elementStyles.breadcrumbArrow}>&gt;</span>
+        <Link
+          className={`${
+            location.pathname === '/elements'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/elements'
+        >
+          Elements
+        </Link>
       </p>
       <div className={elementStyles.elementWrapper__elementContainer}>
         <h3>Elements</h3>

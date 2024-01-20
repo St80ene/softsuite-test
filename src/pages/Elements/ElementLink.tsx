@@ -47,15 +47,15 @@ interface Element {
 }
 
 const ElementLink = () => {
-  const { id } = useParams();
-  const { state: elementLinkDetails } = useLocation();
+  const { id: pageId } = useParams();
+  const { state: elementLinkDetails, pathname } = useLocation();
 
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
     actionOpened: null,
   });
 
-  const { data, error, isLoading } = useGetElementLinksQuery(id);
+  const { data, error, isLoading } = useGetElementLinksQuery({ id: pageId });
 
   const onSearch = (value: string) => console.log(value);
 
@@ -150,8 +150,49 @@ const ElementLink = () => {
       className={`${elementStyles.contentWrapper} ${elementStyles.elementWrapper}`}
     >
       <p className={elementStyles.breadcrumbText}>
-        Payroll Management <span className={styles.breadcrumb}>{'>'} </span>{' '}
-        Elements setup <span className={styles.breadcrumb}>{'>'}</span> Elements
+        <Link
+          className={`${
+            pathname === '/'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/'
+        >
+          Payroll Management{' '}
+        </Link>
+        <span className={elementStyles.breadcrumbArrow}>&gt;</span>
+        <Link
+          className={`${
+            pathname === '/'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/elements'
+        >
+          Elements setup
+        </Link>
+        <span className={elementStyles.breadcrumbArrow}>&gt;</span>
+        <Link
+          className={`${
+            pathname === '/elements'
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to='/elements'
+        >
+          Elements
+        </Link>
+        <span className={elementStyles.breadcrumbArrow}>&gt;</span>
+        <Link
+          className={`${
+            pathname === `/elements/${pageId}/link`
+              ? elementStyles.breadcrumbLinkActive
+              : elementStyles.breadcrumbLinkInActive
+          }`}
+          to={`/elements/${pageId}/link`}
+        >
+          Element Link
+        </Link>
       </p>
 
       <div className={elementStyles.elementWrapper__elementContainer}>
