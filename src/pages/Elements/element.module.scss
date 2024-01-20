@@ -80,3 +80,27 @@
     line-height: 150%;
   }
 }
+
+.breadcrumbLinkActive {
+  color: #000000;
+  text-decoration: none;
+
+  &:hover {
+    color: #4baa79;
+  }
+}
+
+.breadcrumbLinkInActive {
+  color: #cccccc;
+  text-decoration: none;
+
+  &:hover {
+    color: #4baa79;
+  }
+}
+
+.breadcrumbArrow {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #000000;
+}
