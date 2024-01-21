@@ -32,7 +32,7 @@ export default function FormModal({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (currentTab == 1 || currentTab > 0) {
+    if (currentTab === 1 && currentTab > 0) {
       setState(currentTab - 1);
 
       //  const triggerResultSecond = trigger([
@@ -70,6 +70,7 @@ export default function FormModal({
       return;
     }
   };
+  console.log('currentTab', currentTab);
 
   return (
     <Modal
@@ -89,14 +90,14 @@ export default function FormModal({
               className={`${inputStyles.inputWrapper__button} ${inputStyles.inputWrapper__cancelButton}`}
               onClick={handleBack}
             >
-              {currentTab == 1 || currentTab > 0 ? 'Back' : 'Cancel'}
+              {currentTab === 1 && currentTab > 0 ? 'Back' : 'Cancel'}
             </button>
 
             <button
               className={`${inputStyles.inputWrapper__button} ${inputStyles.inputWrapper__nextButton}`}
               onClick={handleNext}
             >
-              Next
+              {currentTab === 1 && currentTab > 0 ? 'Submit' : 'Next'}
             </button>
           </div>
         </div>
