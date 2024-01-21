@@ -5,7 +5,9 @@ import styles from '../../App.module.scss';
 const Home = () => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.container__heading}>Page Not Ready</h2>
+      <h2 className={styles.container__heading}>This is the Home Page</h2>
+      <span className={styles.container__heading}>Thanks for coming</span>
+      <span className={styles.container__heading}>Page Not Ready</span>
       <p className={styles.container__message}>
         We're still working on this page. Please visit the{' '}
         <Link to='/elements' className={styles.container__link}>
