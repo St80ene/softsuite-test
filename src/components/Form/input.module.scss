@@ -4,6 +4,7 @@
   align-items: flex-start;
   gap: 8px;
   flex: 1 0 0;
+  width: 100%;
 
   &__inputStyle {
     display: flex;
@@ -55,6 +56,13 @@
     background-color: #4baa79;
     color: white;
   }
+
+  &__switchWrapper {
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+  }
 }
 
 .inputContainer {
@@ -82,7 +90,8 @@
   border-radius: 4px;
   border: 1px solid #e5e5e5;
   background: #fff;
-  width: 100%;
+  width: 90%;
+  padding: 16px;
 }
 
 .radioOptionsWrapper {

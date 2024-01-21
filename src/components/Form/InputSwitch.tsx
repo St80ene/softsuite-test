@@ -7,11 +7,13 @@ const InputSwitch = ({ label, name, register, errors }: InputProps) => {
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
-      <Switch
-        defaultChecked
-        {...(register(name), { required: true })}
-        // className={`${styles.inputWrapper__inputStyle} ${className}`}
-      />
+      <div className={styles.inputWrapper__inputStyle}>
+        <Switch
+          defaultChecked
+          {...(register(name), { required: true })}
+          // className={`${styles.inputWrapper__inputStyle} ${className}`}
+        />
+      </div>
       {errors[name] && <span>This field is required</span>}
     </div>
   );

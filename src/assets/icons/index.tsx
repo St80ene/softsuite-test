@@ -8,3 +8,4 @@ export { ReactComponent as Show } from './Show.svg';
 export { ReactComponent as ArrowLeft } from './arrow-left.svg';
 export { ReactComponent as SearchIcon } from './search.svg';
 export { ReactComponent as FilterIcon } from './Filter.svg';
+export { ReactComponent as ErrorIcon } from './404-error.svg';
