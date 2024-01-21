@@ -152,6 +152,10 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           placeholder='Select Element Category'
           register={register}
           errors={errors}
+          options={[
+            { label: 'Yes', value: 'Yes' },
+            { label: 'No', value: 'No' },
+          ]}
         />
         <InputSwitch
           label='Status'

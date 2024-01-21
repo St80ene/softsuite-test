@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Layout from './components/Layout';
 import Elements from './pages/Elements';
 import ElementLink from './pages/Elements/ElementLink';
+import Error404 from './components/Layout/Error404';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path={'/'} element={<Home />} />
         <Route path={'/elements'} element={<Elements />} />
         <Route path={'/elements/:id/link'} element={<ElementLink />} />
+
+        <Route path='*' element={<Error404 />} />
       </Route>
     </Routes>
   );
