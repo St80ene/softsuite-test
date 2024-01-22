@@ -5,5 +5,6 @@ export interface InputProps {
   className?: string;
   options?: { label: string; value: any }[];
   register: any;
-  errors: any;
+  error: any;
+  setValue: any;
 }

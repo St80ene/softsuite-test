@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './input.module.scss';
 import { InputProps } from './interface';
 import { Switch } from 'antd';
 
-const InputSwitch = ({ label, name, register, errors }: InputProps) => {
+const InputSwitch = ({
+  label,
+  name,
+  register,
+  error,
+  setValue,
+}: InputProps) => {
+  register(name, { required: 'This field is required' });
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <div className={styles.inputWrapper__inputStyle}>
         <Switch
-          defaultChecked
-          {...(register(name), { required: true })}
-          // className={`${styles.inputWrapper__inputStyle} ${className}`}
+          onChange={(checked) => {
+            setValue(name!, checked);
+          }}
         />
       </div>
-      {errors[name] && <span>This field is required</span>}
+      {error && (
+        <i className={styles.inputWrapper__errorText}>{label} is required</i>
+      )}
     </div>
   );
 };
 
-export default InputSwitch;
+export default memo(InputSwitch);

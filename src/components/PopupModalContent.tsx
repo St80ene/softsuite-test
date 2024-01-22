@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from '../App.module.scss';
 
 interface Items {
@@ -25,4 +25,4 @@ const PopupModalContent = ({ listItems }: { listItems: Items[] }) => {
   );
 };
 
-export default PopupModalContent;
+export default memo(PopupModalContent);

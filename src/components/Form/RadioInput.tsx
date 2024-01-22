@@ -1,31 +1,40 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './input.module.scss';
 import { InputProps } from './interface';
 
-const RadioInput = ({ label, name, options, register, errors }: InputProps) => {
+const RadioInput = ({
+  label,
+  name,
+  options,
+  register,
+  error,
+  setValue,
+}: InputProps) => {
   const inputRegister = register(name, { required: 'This field is required' });
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <div className={styles.radioOptions}>
         {options?.map(({ label, value }, index) => (
-          <>
+          <div key={index}>
             <input
               type='radio'
               name={inputRegister?.name}
-              onChange={(event) => {
-                inputRegister.onChange({ target: { value } });
+              onChange={({ target }) => {
+                console.log('target', target?.value);
+                setValue(name!, value);
               }}
-              key={index}
             />
             <label htmlFor={name}>{label}</label>
             <br />
-          </>
+          </div>
         ))}
       </div>
-      {errors[name] && <span>This field is required</span>}
+      {error && (
+        <i className={styles.inputWrapper__errorText}>{label} is required</i>
+      )}
     </div>
   );
 };
 
-export default RadioInput;
+export default memo(RadioInput);
