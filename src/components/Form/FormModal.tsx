@@ -50,7 +50,7 @@ const FormModal = ({
         'status',
       ]);
 
-      console.log('triggerResultSecond', triggerResultSecond, getValues());
+      // console.log('triggerResultSecond', triggerResultSecond, getValues());
 
       return;
     } else {
@@ -73,7 +73,7 @@ const FormModal = ({
         'description',
         'reportingName',
       ]);
-      console.log('triggerResult', triggerResult, getValues());
+      // console.log('triggerResult', triggerResult, getValues());
 
       if (triggerResult) {
         setState(currentTab + 1);
