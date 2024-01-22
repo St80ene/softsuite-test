@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 interface ModalProps {
   createModal: boolean;
   handleOk: (...args: any[]) => void;
   handleCancel: (...args: any[]) => void;
+  onSubmit: (...args: any[]) => void;
   register: any;
   errors: any;
   trigger: any;
-  getValues: any;
+  getValues: UseFormGetValues<any>;
+  setValue: UseFormSetValue<any>;
 }
 
 const tabList = [Tab1, Tab2];
 
-export default function FormModal({
+const FormModal = ({
   createModal,
   handleOk,
   handleCancel,
@@ -23,26 +26,31 @@ export default function FormModal({
   errors,
   trigger,
   getValues,
-}: ModalProps) {
+  onSubmit,
+  setValue,
+}: ModalProps) => {
   const [currentTab, setState] = useState(0);
 
   const Tab = tabList[currentTab];
 
-  const handleBack = (
+  const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     if (currentTab === 1 && currentTab > 0) {
       setState(currentTab - 1);
 
-      //  const triggerResultSecond = trigger([
-      //    'effectiveStartDate',
-      //    'effectiveEndDate',
-      //    'processingType',
-      //    'payFrequency',
-      //    'selectedMonths',
-      //    'prorate',
-      //  ]);
+      const triggerResultSecond = await trigger([
+        'effectiveStartDate',
+        'effectiveEndDate',
+        'processingType',
+        'payFrequency',
+        'selectedMonths',
+        'prorate',
+        'status',
+      ]);
+
+      // console.log('triggerResultSecond', triggerResultSecond, getValues());
 
       return;
     } else {
@@ -65,12 +73,15 @@ export default function FormModal({
         'description',
         'reportingName',
       ]);
-      console.log('triggerResult', triggerResult, getValues());
-      setState(currentTab + 1);
+      // console.log('triggerResult', triggerResult, getValues());
+
+      if (triggerResult) {
+        setState(currentTab + 1);
+      }
+
       return;
     }
   };
-  console.log('currentTab', currentTab);
 
   return (
     <Modal
@@ -82,11 +93,12 @@ export default function FormModal({
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
     >
-      <form action=''>
-        <Tab register={register} errors={errors} />
+      <form onSubmit={onSubmit}>
+        <Tab register={register} errors={errors} setValue={setValue} />
         <div className={inputStyles.modalContent}>
           <div className={inputStyles.inputWrapper__buttonWrapper}>
             <button
+              type='submit'
               className={`${inputStyles.inputWrapper__button} ${inputStyles.inputWrapper__cancelButton}`}
               onClick={handleBack}
             >
@@ -94,6 +106,7 @@ export default function FormModal({
             </button>
 
             <button
+              type='submit'
               className={`${inputStyles.inputWrapper__button} ${inputStyles.inputWrapper__nextButton}`}
               onClick={handleNext}
             >
@@ -104,4 +117,6 @@ export default function FormModal({
       </form>
     </Modal>
   );
-}
+};
+
+export default memo(FormModal);

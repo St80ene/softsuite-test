@@ -63,6 +63,11 @@
     border: 1px solid #e5e5e5;
     background: #fff;
   }
+
+  &__errorText {
+    color: red;
+    font-size: 12px;
+  }
 }
 
 .inputContainer {

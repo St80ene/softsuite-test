@@ -69,6 +69,7 @@ export default function Elements() {
     watch,
     trigger,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onBlur' });
 
@@ -294,7 +295,7 @@ export default function Elements() {
             pagination
             responsive
             // @ts-ignore
-            data={data && data?.data?.content}
+            data={data?.data?.content || []}
             customStyles={{
               headRow: {
                 style: headerStyle,
@@ -313,6 +314,8 @@ export default function Elements() {
         errors={errors}
         trigger={trigger}
         getValues={getValues}
+        onSubmit={onSubmit}
+        setValue={setValue}
       />
     </div>
   );

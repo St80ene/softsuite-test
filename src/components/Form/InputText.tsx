@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './input.module.scss';
 import { InputProps } from './interface';
 
@@ -8,19 +8,24 @@ const InputText = ({
   className = '',
   placeholder,
   register,
-  errors,
+  error,
+  setValue,
 }: InputProps) => {
+  register(name, { required: 'This field is required' });
+
   return (
     <div className={styles.inputWrapper}>
       <label htmlFor={name}>{label}</label>
       <input
         placeholder={placeholder}
         className={`${styles.inputWrapper__inputStyle} ${className}`}
-        {...(register(name), { required: true })}
+        onChange={({ target }) => setValue(name!, target?.value)}
       />
-      {errors[name] && <span>This field is required</span>}
+      {error && (
+        <i className={styles.inputWrapper__errorText}>{label} is required</i>
+      )}
     </div>
   );
 };
 
-export default InputText;
+export default memo(InputText);

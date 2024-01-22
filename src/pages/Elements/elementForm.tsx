@@ -7,7 +7,15 @@ import InputDate from '../../components/Form/InputDate';
 import RadioInput from '../../components/Form/RadioInput';
 import InputSwitch from '../../components/Form/InputSwitch';
 
-export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
+export const Tab1 = ({
+  register,
+  errors,
+  setValue,
+}: {
+  register: any;
+  errors: any;
+  setValue: any;
+}) => {
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
@@ -16,24 +24,28 @@ export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
           name='name'
           placeholder='Input Name'
           register={register}
-          errors={errors}
+          error={errors['name']}
+          setValue={setValue}
         />
         <InputSelect
           label='Element Classification'
           name='classification'
+          setValue={setValue}
           placeholder='Select Classification'
           options={[
+            { label: 'SelectClassification', value: '' },
             { label: 'Classification 1', value: 'Classification1' },
             { label: 'Classification 2', value: 'Classification2' },
           ]}
           register={register}
-          errors={errors}
+          error={errors['classification']}
         />
       </div>
 
       <div className={inputStyles.inputContainer}>
         <InputSelect
           label='Element Category'
+          setValue={setValue}
           name='category'
           placeholder='Select Element Category'
           options={[
@@ -41,11 +53,12 @@ export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
             { label: 'Category 2', value: 'Category2' },
           ]}
           register={register}
-          errors={errors}
+          error={errors['category']}
         />
 
         <InputSelect
           label='Payrun'
+          setValue={setValue}
           name='payrun'
           placeholder='Select Payrun'
           options={[
@@ -53,30 +66,40 @@ export const Tab1 = ({ register, errors }: { register: any; errors: any }) => {
             { label: 'Close', value: 'Payrun2' },
           ]}
           register={register}
-          errors={errors}
+          error={errors['payrun']}
         />
       </div>
 
       <InputTextArea
         label='Description'
         name='description'
+        setValue={setValue}
         placeholder='Input Description'
         register={register}
-        errors={errors}
+        error={errors['description']}
       />
 
       <InputTextArea
         label='Reporting Name'
         name='reportingName'
+        setValue={setValue}
         placeholder='Input Reporting Name'
         register={register}
-        errors={errors}
+        error={errors['reportingName']}
       />
     </div>
   );
 };
 
-export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
+export const Tab2 = ({
+  register,
+  errors,
+  setValue,
+}: {
+  register: any;
+  errors: any;
+  setValue: any;
+}) => {
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
@@ -85,14 +108,16 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           name='effectiveStartDate'
           placeholder='Select Date'
           register={register}
-          errors={errors}
+          setValue={setValue}
+          error={errors['effectiveStartDate']}
         />
         <InputDate
           label='Effective End Date'
           name='effectiveEndDate'
           placeholder='Select Date'
           register={register}
-          errors={errors}
+          setValue={setValue}
+          error={errors['effectiveEndDate']}
         />
       </div>
 
@@ -101,24 +126,26 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           label='Processing Type'
           name='processingType'
           placeholder='Select Element Category'
+          setValue={setValue}
           options={[
             { label: 'Open', value: 'open' },
             { label: 'Close', value: 'close' },
           ]}
           register={register}
-          errors={errors}
+          error={errors['processingType']}
         />
 
         <RadioInput
           label='Pay Frequency'
           name='payFrequency'
-          placeholder='Select Element Category'
+          setValue={setValue}
+          placeholder='Select Pay frrequency'
           options={[
             { label: 'Monthly', value: 'monthly' },
             { label: 'Selected Months', value: 'selected months' },
           ]}
           register={register}
-          errors={errors}
+          error={errors['payFrequency']}
         />
       </div>
 
@@ -127,6 +154,7 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
         name='selectedMonths'
         placeholder='Select Payrun'
         className={inputStyles.monthPay}
+        setValue={setValue}
         options={[
           { label: 'January', value: 'january' },
           { label: 'February', value: 'february' },
@@ -142,7 +170,7 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           { label: 'December', value: 'december' },
         ]}
         register={register}
-        errors={errors}
+        error={errors['selectedMonths']}
       />
 
       <div className={inputStyles.inputContainer}>
@@ -151,7 +179,8 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           name='prorate'
           placeholder='Select Element Category'
           register={register}
-          errors={errors}
+          error={errors['prorate']}
+          setValue={setValue}
           options={[
             { label: 'Yes', value: 'Yes' },
             { label: 'No', value: 'No' },
@@ -161,7 +190,8 @@ export const Tab2 = ({ register, errors }: { register: any; errors: any }) => {
           label='Status'
           name='status'
           register={register}
-          errors={errors}
+          setValue={setValue}
+          error={errors['status']}
         />
       </div>
     </div>
