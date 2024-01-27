@@ -171,7 +171,6 @@ export default function Elements() {
       selector: (row: Element) => {
         if (row?.status !== undefined) {
           if (Array.isArray(row.status)) {
-            // If it's an array, you may need to customize this part based on your requirements
             return row.status.join(', ');
           } else if (
             typeof row.status === 'boolean' ||
