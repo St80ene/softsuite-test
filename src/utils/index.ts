@@ -66,8 +66,8 @@ export const ElementLookups = ({
   lookupValueId,
 }: ElementCategoryProps) => {
   const { data } = useGetElementLookupsCategoryAndValueQuery({
-    lookupId: lookupId.toString(),
-    lookupValueId: lookupValueId.toString(),
+    lookupId: lookupId?.toString(),
+    lookupValueId: lookupValueId?.toString(),
   });
 
   return data?.name;
@@ -81,8 +81,8 @@ export const DepartmentLookup = ({
   id: any;
 }) => {
   const { data } = useGetDepartmentQuery({
-    suborganizationId: suborganizationId.toString(),
-    id: id.toString(),
+    suborganizationId: suborganizationId?.toString(),
+    id: id?.toString(),
   });
 
   return data?.name;
