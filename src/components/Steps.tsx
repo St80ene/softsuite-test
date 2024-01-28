@@ -45,4 +45,4 @@ const Steps = ({ length, active, index, currentIndex, title }: StepProps) => {
   );
 };
 
-export default Steps;
+export default memo(Steps);
