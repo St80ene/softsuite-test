@@ -10,7 +10,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from 'react-hook-form';
-import Timeline from '../Timeline';
+// import Timeline from '../Timeline';
 
 interface ModalProps {
   createModal: boolean;
@@ -115,9 +115,9 @@ ModalProps) => {
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit?.(onSubmit)}>
         {/* Timeline component */}
-        <Timeline {...items} />
+        {/* <Timeline {...items} /> */}
         <Tab register={register} errors={errors} setValue={setValue} />
         <div className={inputStyles.modalContent}>
           <div className={inputStyles.inputWrapper__buttonWrapper}>
