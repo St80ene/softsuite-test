@@ -78,7 +78,6 @@ const intialValues = {
 };
 
 export default function Elements() {
-  console.log('dhdjvhgfdvh');
   const location = useLocation();
   const {
     register,

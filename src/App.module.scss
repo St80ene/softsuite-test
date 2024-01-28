@@ -142,3 +142,38 @@
     border-radius: 4px;
   }
 }
+
+.timelineContainer {
+  position: relative;
+  display: flex;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.stepIndicator {
+  position: absolute;
+  top: 50%;
+  right: -17px;
+  z-index: 1;
+  transform: translateY(-50%);
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid #4baa79;
+}
+
+.stepTitle {
+  position: absolute;
+  text-align: center;
+  width: 120px;
+  top: -40px;
+  right: -60px;
+  white-space: nowrap;
+  z-index: 1;
+  font-weight: 500;
+}
