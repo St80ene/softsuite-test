@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
@@ -10,7 +10,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from 'react-hook-form';
-// import Timeline from '../Timeline';
+import Steps from '../Steps';
 
 interface ModalProps {
   createModal: boolean;
@@ -44,6 +44,29 @@ ModalProps) => {
   const [currentTab, setState] = useState(0);
 
   const Tab = tabList[currentTab];
+
+  const steps = useMemo(
+    () => [
+      {
+        title: 'Element Details',
+        //  content: <ElementDetails FormItem={FormItem} />,
+        fields: [
+          'name',
+          'classificationValueId',
+          'categoryValueId',
+          'payRunValueId',
+          'reportingName',
+          'description',
+        ],
+      },
+      {
+        title: 'Additional Details',
+        //  content: <AdditionalDetails FormItem={FormItem} />,
+        fields: [],
+      },
+    ],
+    []
+  );
 
   const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -95,16 +118,6 @@ ModalProps) => {
     }
   };
 
-  const items = {
-    color: 'orange',
-    tag: 'Description for Timeline',
-    date: '2024-02-01',
-    link: {
-      url: '/elements',
-      text: 'Elements Page',
-    },
-  };
-
   return (
     <Modal
       title='Create Element'
@@ -116,8 +129,18 @@ ModalProps) => {
       okButtonProps={{ style: { display: 'none' } }}
     >
       <form onSubmit={handleSubmit?.(onSubmit)}>
-        {/* Timeline component */}
-        {/* <Timeline {...items} /> */}
+        <div className={inputStyles.stepContainer}>
+          {steps.map((item, index) => (
+            <Steps
+              key={`step-${index}`}
+              title={item?.title}
+              index={index}
+              currentIndex={currentTab}
+              length={steps?.length}
+              active={currentTab >= index}
+            />
+          ))}
+        </div>
         <Tab register={register} errors={errors} setValue={setValue} />
         <div className={inputStyles.modalContent}>
           <div className={inputStyles.inputWrapper__buttonWrapper}>
