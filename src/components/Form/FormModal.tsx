@@ -2,18 +2,28 @@ import React, { memo, useState } from 'react';
 import { Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import {
+  DeepMap,
+  FieldErrors,
+  FieldValues,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
+// import Timeline from '../Timeline';
 
 interface ModalProps {
   createModal: boolean;
   handleOk: (...args: any[]) => void;
   handleCancel: (...args: any[]) => void;
   onSubmit: (...args: any[]) => void;
-  register: any;
-  errors: any;
+  register: UseFormRegister<any>;
+  errors: DeepMap<FieldValues, FieldErrors>;
   trigger: any;
   getValues: UseFormGetValues<any>;
   setValue: UseFormSetValue<any>;
+  handleSubmit?: (...args: any[]) => any;
+  // defaultValues?: { [key: string]: any };
 }
 
 const tabList = [Tab1, Tab2];
@@ -28,7 +38,9 @@ const FormModal = ({
   getValues,
   onSubmit,
   setValue,
-}: ModalProps) => {
+  handleSubmit,
+}: // defaultValues = {},
+ModalProps) => {
   const [currentTab, setState] = useState(0);
 
   const Tab = tabList[currentTab];
@@ -83,6 +95,16 @@ const FormModal = ({
     }
   };
 
+  const items = {
+    color: 'orange',
+    tag: 'Description for Timeline',
+    date: '2024-02-01',
+    link: {
+      url: '/elements',
+      text: 'Elements Page',
+    },
+  };
+
   return (
     <Modal
       title='Create Element'
@@ -93,7 +115,9 @@ const FormModal = ({
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit?.(onSubmit)}>
+        {/* Timeline component */}
+        {/* <Timeline {...items} /> */}
         <Tab register={register} errors={errors} setValue={setValue} />
         <div className={inputStyles.modalContent}>
           <div className={inputStyles.inputWrapper__buttonWrapper}>

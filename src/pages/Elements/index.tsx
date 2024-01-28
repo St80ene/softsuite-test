@@ -61,17 +61,34 @@ interface Element {
   selectedMonths: [string];
 }
 
+const intialValues = {
+  name: '',
+  classification: '',
+  category: 'string',
+  payrun: '',
+  description: '',
+  processingType: '',
+  prorate: '',
+  reportingName: '',
+  status: '',
+  modifiedBy: 'Etiene Essenoh',
+  effectiveEndDate: '',
+  effectiveStartDate: '',
+  payFrequency: '',
+};
+
 export default function Elements() {
+  console.log('dhdjvhgfdvh');
   const location = useLocation();
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     trigger,
     getValues,
     setValue,
     formState: { errors },
-  } = useForm<Inputs>({ mode: 'onBlur' });
+  } = useForm<Inputs>({ mode: 'onBlur', defaultValues: intialValues });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -152,21 +169,32 @@ export default function Elements() {
     },
     {
       name: 'Status',
-      selector: (row: Element) =>
-        row?.status !== undefined
-          ? row.status === true ||
-            (row.status as string).toLowerCase() === 'active'
-            ? 'Active'
-            : capitalizeFirstLetter(row.status.toString())
-          : '',
+      selector: (row: Element) => {
+        if (row?.status !== undefined) {
+          if (Array.isArray(row.status)) {
+            return row.status.join(', ');
+          } else if (
+            typeof row.status === 'boolean' ||
+            row.status === 'inactive'
+          ) {
+            return capitalizeFirstLetter(row.status.toString());
+          } else if (row.status?.toLowerCase() === 'active') {
+            return 'Active';
+          } else if (typeof row.status === 'string') {
+            return capitalizeFirstLetter(row.status);
+          }
+        }
+
+        return '';
+      },
     },
     {
       name: 'Date & Time Modified',
-      selector: (row: Element) => formatDateTime(row.createdAt.toString()),
+      selector: (row: Element) => formatDateTime(row.createdAt?.toString()),
     },
     {
       name: 'Modified By',
-      selector: (row: Element) => row.modifiedBy.toString(),
+      selector: (row: Element) => row.modifiedBy?.toString(),
     },
     {
       name: 'Action',
@@ -316,6 +344,8 @@ export default function Elements() {
         getValues={getValues}
         onSubmit={onSubmit}
         setValue={setValue}
+        handleSubmit={handleSubmit}
+        // defaultValues={defaultValues}
       />
     </div>
   );
