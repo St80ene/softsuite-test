@@ -25,7 +25,7 @@ export interface Inputs {
   payFrequency: string;
 }
 
-export interface Element {
+export interface IElement {
   categoryId: number;
   categoryValueId: number;
   classificationId: number;
@@ -34,6 +34,7 @@ export interface Element {
   description: string;
   effectiveEndDate: string;
   effectiveStartDate: string;
+  amount: string | number;
   id: string;
   modifiedBy: string;
   name: string;
@@ -45,4 +46,7 @@ export interface Element {
   reportingName: string;
   status: string | boolean;
   selectedMonths: [string];
+  suborganizationId?: number;
+  employeeCategoryId: number;
+  employeeCategoryValueId: number;
 }

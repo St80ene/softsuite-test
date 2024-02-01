@@ -16,6 +16,7 @@ import { request } from '../../utils/request';
 import moment from 'moment';
 import { Inputs } from '../common/interfaces';
 import { usePostElementMutation } from '../../redux/dataSlice';
+import axios from 'axios';
 
 interface ModalProps {
   createModal: boolean;
@@ -59,7 +60,6 @@ ModalProps) => {
     () => [
       {
         title: 'Element Details',
-        //  content: <ElementDetails FormItem={FormItem} />,
         fields: [
           'name',
           'classificationValueId',
@@ -71,119 +71,11 @@ ModalProps) => {
       },
       {
         title: 'Additional Details',
-        //  content: <AdditionalDetails FormItem={FormItem} />,
         fields: [],
       },
     ],
     []
   );
-
-  // const onFinish = (values) => {
-  //   const {
-  //     name,
-  //     classificationValueId,
-  //     categoryValueId,
-  //     classificationId,
-  //     categoryId,
-  //     payRunValueId,
-  //     payRunId,
-  //     status,
-  //     description,
-  //     reportingName,
-  //   } = element;
-  //   const {
-  //     effectiveStartDate,
-  //     effectiveEndDate,
-  //     processingType,
-  //     payFrequency,
-  //     selectedMonths,
-  //     prorate,
-  //   } = values;
-
-  //   const formattedEffectiveStartDate =
-  //     moment(effectiveStartDate).format('DD-MM-YYYY');
-  //   const formattedEffectiveEndDate =
-  //     moment(effectiveEndDate).format('DD-MM-YYYY');
-
-  //   const payload = {
-  //     name,
-  //     description,
-  //     payRunId: parseInt(payRunId!, 10),
-  //     payRunValueId: parseInt(payRunValueId!, 10),
-  //     classificationId: parseInt(classificationId!, 10),
-  //     classificationValueId: parseInt(classificationValueId!, 10),
-  //     categoryId: parseInt(categoryId!, 10),
-  //     categoryValueId: parseInt(categoryValueId!, 10),
-  //     reportingName,
-  //     processingType,
-  //     status,
-  //     prorate,
-  //     effectiveStartDate: formattedEffectiveStartDate,
-  //     effectiveEndDate: formattedEffectiveEndDate,
-  //     selectedMonths,
-  //     payFrequency,
-  //     modifiedBy: 'Etiene Essenoh',
-  //   };
-
-  //   // dispatch(toggleLoading(true));
-
-  //   switch (mode) {
-  //     case Mode.create:
-  //       request(
-  //         'https://650af6bedfd73d1fab094cf7.mockapi.io/elements',
-  //         'POST',
-  //         payload
-  //       )
-  //         .then((response) => {
-  //           dispatch(addNewElement(response.data));
-  //           setCurrentTab(0);
-  //           handleCancel();
-  //           eventBus.emit('notification-message', {
-  //             title: 'Element has been created successfully',
-  //           });
-  //         })
-  //         .catch(() => {
-  //           message.error('Error Occured Creating Element');
-  //         })
-  //         .finally(() => {
-  //           dispatch(toggleLoading(false));
-  //         });
-  //       break;
-
-  //     case Mode.edit:
-  //       request(
-  //         `https://650af6bedfd73d1fab094cf7.mockapi.io/elements/${element.id}`,
-  //         'PUT',
-  //         payload
-  //       )
-  //         .then((response) => {
-  //           dispatch(
-  //             replaceElement({ id: element.id!, updatedElement: response.data })
-  //           );
-  //           setCurrentTab(0);
-  //           handleCancel();
-  //           eventBus.emit('notification-message', {
-  //             title: 'Element has been updated successfully',
-  //           });
-  //         })
-  //         .catch(() => {
-  //           message.error('Error Occured Creating Element');
-  //         })
-  //         .finally(() => {
-  //           dispatch(toggleLoading(false));
-  //         });
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  // const hasMoreTabs = useMemo(
-  //   () => Boolean(steps.length - (currentTab + 1)),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [currentTab]
-  // );
 
   const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -215,9 +107,9 @@ ModalProps) => {
 
     const triggerResult = await trigger([
       'name',
-      'classification',
-      'category',
-      'payrun',
+      'classificationId',
+      'categoryId',
+      'payRunId',
       'description',
       'reportingName',
     ]);
@@ -252,9 +144,9 @@ ModalProps) => {
       try {
         const {
           name,
-          classification,
-          category,
-          payrun,
+          classificationId,
+          categoryId,
+          payRunId,
           description,
           processingType,
           prorate,
@@ -274,11 +166,11 @@ ModalProps) => {
         const payload = {
           name,
           description,
-          //  payRunId: parseInt(payRunId!, 10),
+          payRunId: parseInt(payRunId!, 10),
           //  payRunValueId: parseInt(payRunValueId!, 10),
-          //  classificationId: parseInt(classificationId!, 10),
+          classificationId: parseInt(classificationId!, 10),
           //  classificationValueId: parseInt(classificationValueId!, 10),
-          //  categoryId: parseInt(categoryId!, 10),
+          categoryId: parseInt(categoryId!, 10),
           //  categoryValueId: parseInt(categoryValueId!, 10),
           reportingName,
           processingType,
@@ -293,9 +185,9 @@ ModalProps) => {
 
         console.log('values', {
           name,
-          classification,
-          category,
-          payrun,
+          classificationId,
+          categoryId,
+          payRunId,
           description,
           processingType,
           prorate,
@@ -308,6 +200,13 @@ ModalProps) => {
         });
 
         console.log('call made to post info');
+        const response = await axios.post(
+          'https://650af6bedfd73d1fab094cf7.mockapi.io/elements',
+          payload
+        );
+
+        console.log('response', response);
+
         // const { data, error, isLoading } = usePostElementMutation();
       } catch (error) {
         console.log('error', error);

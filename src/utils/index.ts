@@ -1,7 +1,9 @@
 import {
   useGetDepartmentQuery,
   useGetElementLookupsCategoryAndValueQuery,
+  useGetLookupsQuery,
   useGetSubOrganizationQuery,
+  usePostElementMutation,
 } from '../redux/dataSlice';
 
 interface ElementCategoryProps {
@@ -92,4 +94,35 @@ export const SubOrganizationLookup = (id: any) => {
   const { data } = useGetSubOrganizationQuery(id.toString());
 
   return data?.name;
+};
+
+export const CreateElement = (payload: any) => {
+  const result = usePostElementMutation(payload);
+
+  return result;
+};
+
+export const groupDataByCategory = (
+  data: any,
+  categoryName: string,
+  defaultLabel = 'Undefined',
+  defaultValue = 'Undefined'
+) => {
+  const categoryData = data?.data
+    ?.filter(
+      (item: any) => item.name.toLowerCase() === categoryName.toLowerCase()
+    )
+    ?.map((item: any) => ({
+      label: item.type || defaultLabel,
+      value: item.id || defaultValue,
+    }));
+
+  // Add a default disabled option at the beginning
+  const defaultOption = {
+    label: 'Select an option',
+    value: '',
+    disabled: true,
+  };
+
+  return categoryData ? [defaultOption, ...categoryData] : [];
 };

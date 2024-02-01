@@ -9,6 +9,9 @@ export const elementApi = createApi({
     getElements: builder.query<string, void>({
       query: () => `elements`,
     }),
+    getLookups: builder.query<any, void>({
+      query: (id) => `lookups`,
+    }),
     getElementLookups: builder.query<any, void>({
       query: (id) => `lookups/${id}`,
     }),
@@ -47,4 +50,5 @@ export const {
   useGetDepartmentQuery,
   useGetSubOrganizationQuery,
   usePostElementMutation,
+  useGetLookupsQuery,
 } = elementApi;

@@ -13,38 +13,9 @@ import {
   capitalizeFirstLetter,
   formatLinkDateTime,
 } from '../../utils';
+import { IElement } from '../../components/common/interfaces';
 
 const { Search } = Input;
-
-interface Element {
-  id: string;
-  name: string;
-  elementId: number;
-  suborganizationId: number;
-  locationId: number;
-  departmentId: number;
-  employeeCategoryId: number;
-  employeeCategoryValueId: number;
-  employeeTypeId: number;
-  employeeTypeValueId: number;
-  jobTitleId: number;
-  grade: number;
-  gradeStep: number;
-  unionId: number;
-  amountType: string;
-  amount: number;
-  rate: number;
-  effectiveStartDate: string;
-  effectiveEndDate: string;
-  status: string;
-  automate: string;
-  additionalInfo: [
-    {
-      lookupId: number;
-      lookupValueId: number;
-    }
-  ];
-}
 
 const ElementLink = () => {
   const { id: pageId } = useParams();
@@ -68,23 +39,23 @@ const ElementLink = () => {
   const columns = [
     {
       name: 'Name',
-      selector: (row: Element) => row.name,
+      selector: (row: IElement) => row.name,
     },
     {
       name: 'Sub-Organization',
-      cell: ({ suborganizationId }: Element) => (
+      cell: ({ suborganizationId }: IElement) => (
         <SubOrganizationLookup id={suborganizationId} />
       ),
     },
     {
       name: 'Department',
-      cell: ({ suborganizationId, id }: Element) => (
+      cell: ({ suborganizationId, id }: IElement) => (
         <DepartmentLookup suborganizationId={suborganizationId} id={id} />
       ),
     },
     {
       name: 'Employee Category',
-      cell: ({ employeeCategoryId, employeeCategoryValueId }: Element) => (
+      cell: ({ employeeCategoryId, employeeCategoryValueId }: IElement) => (
         <ElementLookups
           lookupId={employeeCategoryId}
           lookupValueId={employeeCategoryValueId}
@@ -93,15 +64,15 @@ const ElementLink = () => {
     },
     {
       name: 'Amount',
-      selector: (row: Element) => row.amount,
+      selector: (row: IElement) => row.amount,
     },
     {
       name: 'Details',
-      cell: (row: Element) => <Link to={''}>View Details</Link>,
+      cell: (row: IElement) => <Link to={''}>View Details</Link>,
     },
     {
       name: 'Action',
-      cell: (row: Element) => {
+      cell: (row: IElement) => {
         // const popItems = [
         //   {
         //     title: 'View Element Links',

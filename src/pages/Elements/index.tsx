@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
 import { Button, Input, message, Popover } from 'antd';
@@ -11,8 +11,8 @@ import {
   Show,
 } from '../../assets/icons';
 import {
-  capitalizeFirstLetter,
   ElementLookups,
+  capitalizeFirstLetter,
   formatDateTime,
 } from '../../utils';
 import { useGetElementsQuery } from '../../redux/dataSlice';
@@ -21,15 +21,15 @@ import FormModal from '../../components/Form/FormModal';
 import elementStyles from './element.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Inputs, Element } from '../../components/common/interfaces';
+import { Inputs, IElement } from '../../components/common/interfaces';
 
 const { Search } = Input;
 
 const intialValues = {
   name: '',
-  classification: '',
-  category: 'string',
-  payrun: '',
+  classificationId: '',
+  categoryId: 'string',
+  payRunId: '',
   description: '',
   processingType: '',
   prorate: '',
@@ -39,6 +39,7 @@ const intialValues = {
   effectiveEndDate: '',
   effectiveStartDate: '',
   payFrequency: '',
+  selectedMonths: [],
 };
 
 export default function Elements() {
@@ -57,6 +58,7 @@ export default function Elements() {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   const { data, error, isLoading } = useGetElementsQuery();
+
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
     actionOpened: null,
@@ -114,17 +116,17 @@ export default function Elements() {
   const columns = [
     {
       name: 'Name',
-      selector: (row: Element) => row.name,
+      selector: (row: IElement) => row.name,
     },
     {
       name: 'Element Category',
-      cell: ({ categoryId, categoryValueId }: Element) => (
+      cell: ({ categoryId, categoryValueId }: IElement) => (
         <ElementLookups lookupId={categoryId} lookupValueId={categoryValueId} />
       ),
     },
     {
       name: 'Element Classification',
-      cell: ({ classificationId, classificationValueId }: Element) => (
+      cell: ({ classificationId, classificationValueId }: IElement) => (
         <ElementLookups
           lookupId={classificationId}
           lookupValueId={classificationValueId}
@@ -133,7 +135,7 @@ export default function Elements() {
     },
     {
       name: 'Status',
-      selector: (row: Element) => {
+      selector: (row: IElement) => {
         if (row?.status !== undefined) {
           if (Array.isArray(row.status)) {
             return row.status.join(', ');
@@ -154,15 +156,15 @@ export default function Elements() {
     },
     {
       name: 'Date & Time Modified',
-      selector: (row: Element) => formatDateTime(row.createdAt?.toString()),
+      selector: (row: IElement) => formatDateTime(row.createdAt?.toString()),
     },
     {
       name: 'Modified By',
-      selector: (row: Element) => row.modifiedBy?.toString(),
+      selector: (row: IElement) => row.modifiedBy?.toString(),
     },
     {
       name: 'Action',
-      cell: (row: Element) => {
+      cell: (row: IElement) => {
         const popItems = [
           {
             title: 'View Element Links',

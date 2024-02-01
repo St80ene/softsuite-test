@@ -6,6 +6,8 @@ import InputTextArea from '../../components/Form/InputTextArea';
 import InputDate from '../../components/Form/InputDate';
 import RadioInput from '../../components/Form/RadioInput';
 import InputSwitch from '../../components/Form/InputSwitch';
+import { useGetLookupsQuery } from '../../redux/dataSlice';
+import { groupDataByCategory } from '../../utils';
 
 export const Tab1 = ({
   register,
@@ -16,6 +18,18 @@ export const Tab1 = ({
   errors: any;
   setValue: any;
 }) => {
+  const { data: dataLookups } = useGetLookupsQuery();
+
+  const groupedCategories = groupDataByCategory(
+    dataLookups,
+    'Element Category'
+  );
+  const groupedClassification = groupDataByCategory(
+    dataLookups,
+    'Element Classification'
+  );
+  const groupedPayRun = groupDataByCategory(dataLookups, 'Pay Run');
+
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
@@ -27,18 +41,15 @@ export const Tab1 = ({
           error={errors['name']}
           setValue={setValue}
         />
+
         <InputSelect
           label='Element Classification'
-          name='classification'
+          name='classificationId'
           setValue={setValue}
           placeholder='Select Classification'
-          options={[
-            { label: 'SelectClassification', value: '' },
-            { label: 'Classification 1', value: 'Classification1' },
-            { label: 'Classification 2', value: 'Classification2' },
-          ]}
+          options={groupedClassification}
           register={register}
-          error={errors['classification']}
+          error={errors['classificationId']}
         />
       </div>
 
@@ -46,27 +57,25 @@ export const Tab1 = ({
         <InputSelect
           label='Element Category'
           setValue={setValue}
-          name='category'
+          name='categoryId'
           placeholder='Select Element Category'
+          // options={groupedCategories}
           options={[
-            { label: 'Category 1', value: 'Category1' },
-            { label: 'Category 2', value: 'Category2' },
+            { label: 'Select an option', value: '', disabled: true },
+            ...groupedCategories,
           ]}
           register={register}
-          error={errors['category']}
+          error={errors['categoryId']}
         />
 
         <InputSelect
           label='Payrun'
           setValue={setValue}
-          name='payrun'
+          name='payRunId'
           placeholder='Select Payrun'
-          options={[
-            { label: 'Payrun 1', value: 'Payrun1' },
-            { label: 'Close', value: 'Payrun2' },
-          ]}
+          options={groupedPayRun}
           register={register}
-          error={errors['payrun']}
+          error={errors['payRunId']}
         />
       </div>
 
@@ -149,7 +158,7 @@ export const Tab2 = ({
         />
       </div>
 
-      <InputSelect
+      {/* <InputSelect
         label='Selected Pay Months'
         name='selectedMonths'
         placeholder='Select Payrun'
@@ -171,7 +180,7 @@ export const Tab2 = ({
         ]}
         register={register}
         error={errors['selectedMonths']}
-      />
+      /> */}
 
       <div className={inputStyles.inputContainer}>
         <RadioInput
