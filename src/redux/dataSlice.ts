@@ -29,6 +29,13 @@ export const elementApi = createApi({
       query: ({ suborganizationId, id }) =>
         `suborganizations/${suborganizationId}/departments/${id}`,
     }),
+    postElement: builder.mutation<any, any>({
+      query: (elementData) => ({
+        url: 'elements',
+        method: 'POST',
+        body: elementData,
+      }),
+    }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useGetElementLinksQuery,
   useGetDepartmentQuery,
   useGetSubOrganizationQuery,
+  usePostElementMutation,
 } = elementApi;

@@ -21,45 +21,9 @@ import FormModal from '../../components/Form/FormModal';
 import elementStyles from './element.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Inputs, Element } from '../../components/common/interfaces';
 
 const { Search } = Input;
-
-type Inputs = {
-  name: string;
-  classification: string;
-  category: string;
-  payrun: any;
-  description: any;
-  processingType: string;
-  prorate: string;
-  reportingName: string;
-  status: string | boolean;
-  modifiedBy: string;
-  effectiveEndDate: string;
-  effectiveStartDate: string;
-  payFrequency: string;
-};
-interface Element {
-  categoryId: number;
-  categoryValueId: number;
-  classificationId: number;
-  classificationValueId: number;
-  createdAt: string;
-  description: string;
-  effectiveEndDate: string;
-  effectiveStartDate: string;
-  id: string;
-  modifiedBy: string;
-  name: string;
-  payFrequency: string;
-  payRunId: number;
-  payRunValueId: number;
-  processingType: string;
-  prorate: string;
-  reportingName: string;
-  status: string | boolean;
-  selectedMonths: [string];
-}
 
 const intialValues = {
   name: '',
@@ -86,6 +50,7 @@ export default function Elements() {
     trigger,
     getValues,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onBlur', defaultValues: intialValues });
 
@@ -344,6 +309,7 @@ export default function Elements() {
         onSubmit={onSubmit}
         setValue={setValue}
         handleSubmit={handleSubmit}
+        reset={reset}
         // defaultValues={defaultValues}
       />
     </div>

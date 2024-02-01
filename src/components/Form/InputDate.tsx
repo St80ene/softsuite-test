@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styles from './input.module.scss';
-import { InputProps } from './interface';
+import { InputProps } from '../common/interfaces';
 
 const InputDate = ({
   label,

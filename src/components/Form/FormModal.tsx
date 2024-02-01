@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
@@ -8,9 +8,14 @@ import {
   FieldValues,
   UseFormGetValues,
   UseFormRegister,
+  UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form';
 import Steps from '../Steps';
+import { request } from '../../utils/request';
+import moment from 'moment';
+import { Inputs } from '../common/interfaces';
+import { usePostElementMutation } from '../../redux/dataSlice';
 
 interface ModalProps {
   createModal: boolean;
@@ -23,6 +28,7 @@ interface ModalProps {
   getValues: UseFormGetValues<any>;
   setValue: UseFormSetValue<any>;
   handleSubmit?: (...args: any[]) => any;
+  reset: UseFormReset<Inputs>;
   // defaultValues?: { [key: string]: any };
 }
 
@@ -39,9 +45,13 @@ const FormModal = ({
   onSubmit,
   setValue,
   handleSubmit,
+  reset,
 }: // defaultValues = {},
 ModalProps) => {
-  const [currentTab, setState] = useState(0);
+  const [{ nextBtnDisable, currentTab }, setState] = useState({
+    nextBtnDisable: false,
+    currentTab: 0,
+  });
 
   const Tab = tabList[currentTab];
 
@@ -68,52 +78,247 @@ ModalProps) => {
     []
   );
 
+  // const onFinish = (values) => {
+  //   const {
+  //     name,
+  //     classificationValueId,
+  //     categoryValueId,
+  //     classificationId,
+  //     categoryId,
+  //     payRunValueId,
+  //     payRunId,
+  //     status,
+  //     description,
+  //     reportingName,
+  //   } = element;
+  //   const {
+  //     effectiveStartDate,
+  //     effectiveEndDate,
+  //     processingType,
+  //     payFrequency,
+  //     selectedMonths,
+  //     prorate,
+  //   } = values;
+
+  //   const formattedEffectiveStartDate =
+  //     moment(effectiveStartDate).format('DD-MM-YYYY');
+  //   const formattedEffectiveEndDate =
+  //     moment(effectiveEndDate).format('DD-MM-YYYY');
+
+  //   const payload = {
+  //     name,
+  //     description,
+  //     payRunId: parseInt(payRunId!, 10),
+  //     payRunValueId: parseInt(payRunValueId!, 10),
+  //     classificationId: parseInt(classificationId!, 10),
+  //     classificationValueId: parseInt(classificationValueId!, 10),
+  //     categoryId: parseInt(categoryId!, 10),
+  //     categoryValueId: parseInt(categoryValueId!, 10),
+  //     reportingName,
+  //     processingType,
+  //     status,
+  //     prorate,
+  //     effectiveStartDate: formattedEffectiveStartDate,
+  //     effectiveEndDate: formattedEffectiveEndDate,
+  //     selectedMonths,
+  //     payFrequency,
+  //     modifiedBy: 'Etiene Essenoh',
+  //   };
+
+  //   // dispatch(toggleLoading(true));
+
+  //   switch (mode) {
+  //     case Mode.create:
+  //       request(
+  //         'https://650af6bedfd73d1fab094cf7.mockapi.io/elements',
+  //         'POST',
+  //         payload
+  //       )
+  //         .then((response) => {
+  //           dispatch(addNewElement(response.data));
+  //           setCurrentTab(0);
+  //           handleCancel();
+  //           eventBus.emit('notification-message', {
+  //             title: 'Element has been created successfully',
+  //           });
+  //         })
+  //         .catch(() => {
+  //           message.error('Error Occured Creating Element');
+  //         })
+  //         .finally(() => {
+  //           dispatch(toggleLoading(false));
+  //         });
+  //       break;
+
+  //     case Mode.edit:
+  //       request(
+  //         `https://650af6bedfd73d1fab094cf7.mockapi.io/elements/${element.id}`,
+  //         'PUT',
+  //         payload
+  //       )
+  //         .then((response) => {
+  //           dispatch(
+  //             replaceElement({ id: element.id!, updatedElement: response.data })
+  //           );
+  //           setCurrentTab(0);
+  //           handleCancel();
+  //           eventBus.emit('notification-message', {
+  //             title: 'Element has been updated successfully',
+  //           });
+  //         })
+  //         .catch(() => {
+  //           message.error('Error Occured Creating Element');
+  //         })
+  //         .finally(() => {
+  //           dispatch(toggleLoading(false));
+  //         });
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  // const hasMoreTabs = useMemo(
+  //   () => Boolean(steps.length - (currentTab + 1)),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [currentTab]
+  // );
+
   const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     if (currentTab === 1 && currentTab > 0) {
-      setState(currentTab - 1);
-
-      const triggerResultSecond = await trigger([
-        'effectiveStartDate',
-        'effectiveEndDate',
-        'processingType',
-        'payFrequency',
-        'selectedMonths',
-        'prorate',
-        'status',
-      ]);
-
-      // console.log('triggerResultSecond', triggerResultSecond, getValues());
+      setState((prev) => ({ ...prev, currentTab: currentTab - 1 }));
 
       return;
     } else {
       handleCancel();
-      setState(0);
+      reset();
+      setState((prev) => ({ ...prev, currentTab: 0 }));
       return;
     }
+
+    // if (hasMoreTabs) {
+    //   //  dispatch(updateSlice(form.getFieldsValue()));
+    //   setState(currentTab - 1);
+    // } else {
+    //   //  form.submit();
+    // }
   };
 
   const handleNext = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (currentTab < 1) {
-      const triggerResult = await trigger([
-        'name',
-        'classification',
-        'category',
-        'payrun',
-        'description',
-        'reportingName',
-      ]);
-      // console.log('triggerResult', triggerResult, getValues());
 
-      if (triggerResult) {
-        setState(currentTab + 1);
+    const triggerResult = await trigger([
+      'name',
+      'classification',
+      'category',
+      'payrun',
+      'description',
+      'reportingName',
+    ]);
+
+    const triggerResultSecond = await trigger([
+      'effectiveStartDate',
+      'effectiveEndDate',
+      'processingType',
+      'payFrequency',
+      'selectedMonths',
+      'prorate',
+      'status',
+    ]);
+
+    if (currentTab < 1) {
+      if (triggerResult && currentTab >= 0 && currentTab < steps?.length - 1) {
+        setState((prev) => ({
+          ...prev,
+          currentTab: currentTab + 1,
+          nextBtnDisable: false,
+        }));
       }
 
+      return;
+    }
+
+    if (
+      triggerResultSecond &&
+      currentTab > 0 &&
+      currentTab === steps?.length - 1
+    ) {
+      try {
+        const {
+          name,
+          classification,
+          category,
+          payrun,
+          description,
+          processingType,
+          prorate,
+          reportingName,
+          status,
+          modifiedBy,
+          effectiveEndDate,
+          effectiveStartDate,
+          payFrequency,
+        } = await getValues();
+
+        const formattedEffectiveStartDate =
+          moment(effectiveStartDate).format('DD-MM-YYYY');
+        const formattedEffectiveEndDate =
+          moment(effectiveEndDate).format('DD-MM-YYYY');
+
+        const payload = {
+          name,
+          description,
+          //  payRunId: parseInt(payRunId!, 10),
+          //  payRunValueId: parseInt(payRunValueId!, 10),
+          //  classificationId: parseInt(classificationId!, 10),
+          //  classificationValueId: parseInt(classificationValueId!, 10),
+          //  categoryId: parseInt(categoryId!, 10),
+          //  categoryValueId: parseInt(categoryValueId!, 10),
+          reportingName,
+          processingType,
+          status,
+          prorate,
+          effectiveStartDate: formattedEffectiveStartDate,
+          effectiveEndDate: formattedEffectiveEndDate,
+          //  selectedMonths,
+          payFrequency,
+          modifiedBy: 'Etiene Essenoh',
+        };
+
+        console.log('values', {
+          name,
+          classification,
+          category,
+          payrun,
+          description,
+          processingType,
+          prorate,
+          reportingName,
+          status,
+          modifiedBy,
+          effectiveEndDate,
+          effectiveStartDate,
+          payFrequency,
+        });
+
+        console.log('call made to post info');
+        // const { data, error, isLoading } = usePostElementMutation();
+      } catch (error) {
+        console.log('error', error);
+      }
+      handleCancel();
+      reset();
+      setState((prev) => ({
+        ...prev,
+        currentTab: 0,
+        nextBtnDisable: false,
+      }));
       return;
     }
   };
@@ -154,7 +359,10 @@ ModalProps) => {
 
             <button
               type='submit'
-              className={`${inputStyles.inputWrapper__button} ${inputStyles.inputWrapper__nextButton}`}
+              disabled={nextBtnDisable}
+              className={`${inputStyles.inputWrapper__button} ${
+                inputStyles.inputWrapper__nextButton
+              } ${nextBtnDisable && inputStyles.inputWrapper__nextBtnDisabled}`}
               onClick={handleNext}
             >
               {currentTab === 1 && currentTab > 0 ? 'Submit' : 'Next'}
