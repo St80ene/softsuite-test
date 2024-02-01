@@ -57,6 +57,10 @@
     color: white;
   }
 
+  &__nextBtnDisabled {
+    background-color: #71c89b;
+  }
+
   &__switchWrapper {
     padding: 16px;
     border-radius: 4px;

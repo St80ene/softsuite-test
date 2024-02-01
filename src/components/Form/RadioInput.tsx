@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styles from './input.module.scss';
-import { InputProps } from './interface';
+import { InputProps } from '../common/interfaces';
 
 const RadioInput = ({
   label,
@@ -21,8 +21,7 @@ const RadioInput = ({
               type='radio'
               name={inputRegister?.name}
               onChange={({ target }) => {
-                console.log('target', target?.value);
-                setValue(name!, value);
+                setValue(name!, !!target?.value);
               }}
             />
             <label htmlFor={name}>{label}</label>

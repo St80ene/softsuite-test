@@ -9,6 +9,9 @@ export const elementApi = createApi({
     getElements: builder.query<string, void>({
       query: () => `elements`,
     }),
+    getLookups: builder.query<any, void>({
+      query: (id) => `lookups`,
+    }),
     getElementLookups: builder.query<any, void>({
       query: (id) => `lookups/${id}`,
     }),
@@ -29,6 +32,13 @@ export const elementApi = createApi({
       query: ({ suborganizationId, id }) =>
         `suborganizations/${suborganizationId}/departments/${id}`,
     }),
+    postElement: builder.mutation<any, any>({
+      query: (elementData) => ({
+        url: 'elements',
+        method: 'POST',
+        body: elementData,
+      }),
+    }),
   }),
 });
 
@@ -39,4 +49,6 @@ export const {
   useGetElementLinksQuery,
   useGetDepartmentQuery,
   useGetSubOrganizationQuery,
+  usePostElementMutation,
+  useGetLookupsQuery,
 } = elementApi;
