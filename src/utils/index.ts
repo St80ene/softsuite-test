@@ -1,7 +1,6 @@
 import {
   useGetDepartmentQuery,
   useGetElementLookupsCategoryAndValueQuery,
-  useGetLookupsQuery,
   useGetSubOrganizationQuery,
   usePostElementMutation,
 } from '../redux/dataSlice';
