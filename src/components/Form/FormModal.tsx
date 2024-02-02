@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
-import { Modal } from 'antd';
+import { App, Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
 import {
@@ -12,10 +12,8 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 import Steps from '../Steps';
-import { request } from '../../utils/request';
 import moment from 'moment';
 import { Inputs } from '../common/interfaces';
-import { usePostElementMutation } from '../../redux/dataSlice';
 import axios from 'axios';
 
 interface ModalProps {
@@ -30,7 +28,7 @@ interface ModalProps {
   setValue: UseFormSetValue<any>;
   handleSubmit?: (...args: any[]) => any;
   reset: UseFormReset<Inputs>;
-  // defaultValues?: { [key: string]: any };
+  refresh: (...args: any[]) => void;
 }
 
 const tabList = [Tab1, Tab2];
@@ -47,12 +45,14 @@ const FormModal = ({
   setValue,
   handleSubmit,
   reset,
-}: // defaultValues = {},
-ModalProps) => {
+  refresh,
+}: ModalProps) => {
   const [{ nextBtnDisable, currentTab }, setState] = useState({
     nextBtnDisable: false,
     currentTab: 0,
   });
+
+  const { message } = App.useApp();
 
   const Tab = tabList[currentTab];
 
@@ -91,13 +91,6 @@ ModalProps) => {
       setState((prev) => ({ ...prev, currentTab: 0 }));
       return;
     }
-
-    // if (hasMoreTabs) {
-    //   //  dispatch(updateSlice(form.getFieldsValue()));
-    //   setState(currentTab - 1);
-    // } else {
-    //   //  form.submit();
-    // }
   };
 
   const handleNext = async (
@@ -152,7 +145,6 @@ ModalProps) => {
           prorate,
           reportingName,
           status,
-          modifiedBy,
           effectiveEndDate,
           effectiveStartDate,
           payFrequency,
@@ -183,34 +175,20 @@ ModalProps) => {
           modifiedBy: 'Etiene Essenoh',
         };
 
-        console.log('values', {
-          name,
-          classificationId,
-          categoryId,
-          payRunId,
-          description,
-          processingType,
-          prorate,
-          reportingName,
-          status,
-          modifiedBy,
-          effectiveEndDate,
-          effectiveStartDate,
-          payFrequency,
-        });
-
-        console.log('call made to post info');
-        const response = await axios.post(
+        await axios.post(
           'https://650af6bedfd73d1fab094cf7.mockapi.io/elements',
           payload
         );
 
-        console.log('response', response);
+        message.success('Element has been created successfully');
 
-        // const { data, error, isLoading } = usePostElementMutation();
+        refresh();
       } catch (error) {
         console.log('error', error);
+        // @ts-ignore
+        message.error(error.message);
       }
+
       handleCancel();
       reset();
       setState((prev) => ({

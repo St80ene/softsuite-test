@@ -57,7 +57,12 @@ export default function Elements() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-  const { data, error, isLoading } = useGetElementsQuery();
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: elementsListRefresh,
+  } = useGetElementsQuery();
 
   const [{ actionOpened, createModal }, setState] = useState({
     createModal: false,
@@ -71,16 +76,6 @@ export default function Elements() {
       ...prev,
       actionOpened: actionOpened === item.id ? null : item.id,
     }));
-
-  // const confirm = (e: any) => {
-  //   console.log(e);
-  //   message.success('Click on Yes');
-  // };
-
-  // const cancel = (e: any) => {
-  //   console.log(e);
-  //   message.error('Click on No');
-  // };
 
   const handleOk = () =>
     setState((prev) => ({
@@ -99,19 +94,6 @@ export default function Elements() {
       ...prev,
       createModal: true,
     }));
-
-  // const handlePageChange = (page) => {
-  //   fetchUsers(page);
-  // };
-  // const handlePerRowsChange = async (newPerPage, page) => {
-  //   setLoading(true);
-  //   const response = await axios.get(
-  //     `https://reqres.in/api/users?page=${page}&per_page=${newPerPage}&delay=1`
-  //   );
-  //   setData(response.data.data);
-  //   setPerPage(newPerPage);
-  //   setLoading(false);
-  // };
 
   const columns = [
     {
@@ -312,7 +294,7 @@ export default function Elements() {
         setValue={setValue}
         handleSubmit={handleSubmit}
         reset={reset}
-        // defaultValues={defaultValues}
+        refresh={elementsListRefresh}
       />
     </div>
   );
