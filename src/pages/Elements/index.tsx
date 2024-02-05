@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
-import { Button, Input, message, Popover } from 'antd';
+import { Button, Input, Popover } from 'antd';
 import {
   Delete,
   Edit,
@@ -59,7 +59,6 @@ export default function Elements() {
 
   const {
     data,
-    error,
     isLoading,
     refetch: elementsListRefresh,
   } = useGetElementsQuery();

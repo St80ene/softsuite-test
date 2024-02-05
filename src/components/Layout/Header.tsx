@@ -9,9 +9,9 @@ export default function Header() {
       <div className={styles.profile}>
         <Notification />
         <img src={Profile} alt='Profile avatar' />
-        <div>
-          <p>Henry Okoro</p>
-          <p className={styles.role}>Payroll Manager</p>
+        <div className={styles.profileUser}>
+          <p className={styles.userName}>Henry Okoro</p>
+          <p className={styles.userTitle}>Payroll Manager</p>
         </div>
       </div>
     </div>
