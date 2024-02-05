@@ -1,12 +1,14 @@
 export interface InputProps {
   label: string;
   name: string;
+  type?: string;
   placeholder?: string;
   className?: string;
   options?: { label: string; value: any }[];
   register: any;
   error: any;
   setValue: any;
+  handleChange?: (...args: any[]) => any;
 }
 
 export interface Inputs {

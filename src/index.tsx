@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { ConfigProvider, App as AntApp } from 'antd';
+import { IoProvider } from 'socket.io-react-hook';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +17,11 @@ root.render(
     <BrowserRouter>
       {/* <Suspense fallback={<Loader />}> */}
       <Provider store={store}>
-        <App />
+        <AntApp>
+          <IoProvider>
+            <App />
+          </IoProvider>
+        </AntApp>
       </Provider>
       {/* </Suspense> */}
     </BrowserRouter>

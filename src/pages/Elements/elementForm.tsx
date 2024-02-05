@@ -1,13 +1,7 @@
-import React from 'react';
 import inputStyles from '../../components/Form/input.module.scss';
-import InputText from '../../components/Form/InputText';
-import InputSelect from '../../components/Form/InputSelect';
-import InputTextArea from '../../components/Form/InputTextArea';
-import InputDate from '../../components/Form/InputDate';
-import RadioInput from '../../components/Form/RadioInput';
-import InputSwitch from '../../components/Form/InputSwitch';
 import { useGetLookupsQuery } from '../../redux/dataSlice';
 import { groupDataByCategory } from '../../utils';
+import InputComponent from '../../components/Form/InputComponent';
 
 export const Tab1 = ({
   register,
@@ -33,8 +27,9 @@ export const Tab1 = ({
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
-        <InputText
+        <InputComponent
           label='Name'
+          type='text'
           name='name'
           placeholder='Input Name'
           register={register}
@@ -42,7 +37,8 @@ export const Tab1 = ({
           setValue={setValue}
         />
 
-        <InputSelect
+        <InputComponent
+          type='select'
           label='Element Classification'
           name='classificationId'
           setValue={setValue}
@@ -54,22 +50,20 @@ export const Tab1 = ({
       </div>
 
       <div className={inputStyles.inputContainer}>
-        <InputSelect
+        <InputComponent
+          type='select'
           label='Element Category'
           setValue={setValue}
           name='categoryId'
           placeholder='Select Element Category'
-          // options={groupedCategories}
-          options={[
-            { label: 'Select an option', value: '', disabled: true },
-            ...groupedCategories,
-          ]}
+          options={groupedCategories}
           register={register}
           error={errors['categoryId']}
         />
 
-        <InputSelect
+        <InputComponent
           label='Payrun'
+          type='select'
           setValue={setValue}
           name='payRunId'
           placeholder='Select Payrun'
@@ -79,7 +73,8 @@ export const Tab1 = ({
         />
       </div>
 
-      <InputTextArea
+      <InputComponent
+        type='textarea'
         label='Description'
         name='description'
         setValue={setValue}
@@ -88,7 +83,8 @@ export const Tab1 = ({
         error={errors['description']}
       />
 
-      <InputTextArea
+      <InputComponent
+        type='textarea'
         label='Reporting Name'
         name='reportingName'
         setValue={setValue}
@@ -112,7 +108,8 @@ export const Tab2 = ({
   return (
     <div className={inputStyles.modalContent}>
       <div className={inputStyles.inputContainer}>
-        <InputDate
+        <InputComponent
+          type='date'
           label='Effective Start Date'
           name='effectiveStartDate'
           placeholder='Select Date'
@@ -120,7 +117,8 @@ export const Tab2 = ({
           setValue={setValue}
           error={errors['effectiveStartDate']}
         />
-        <InputDate
+        <InputComponent
+          type='date'
           label='Effective End Date'
           name='effectiveEndDate'
           placeholder='Select Date'
@@ -131,7 +129,8 @@ export const Tab2 = ({
       </div>
 
       <div className={inputStyles.inputContainer}>
-        <RadioInput
+        <InputComponent
+          type='radio'
           label='Processing Type'
           name='processingType'
           placeholder='Select Element Category'
@@ -144,7 +143,8 @@ export const Tab2 = ({
           error={errors['processingType']}
         />
 
-        <RadioInput
+        <InputComponent
+          type='radio'
           label='Pay Frequency'
           name='payFrequency'
           setValue={setValue}
@@ -183,9 +183,10 @@ export const Tab2 = ({
       /> */}
 
       <div className={inputStyles.inputContainer}>
-        <RadioInput
+        <InputComponent
           label='Prorate'
           name='prorate'
+          type='radio'
           placeholder='Select Element Category'
           register={register}
           error={errors['prorate']}
@@ -195,7 +196,8 @@ export const Tab2 = ({
             { label: 'No', value: 'No' },
           ]}
         />
-        <InputSwitch
+        <InputComponent
+          type='switch'
           label='Status'
           name='status'
           register={register}

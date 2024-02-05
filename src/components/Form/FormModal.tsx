@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { App, Modal } from 'antd';
 import { Tab1, Tab2 } from '../../pages/Elements/elementForm';
 import inputStyles from './input.module.scss';
@@ -85,11 +85,14 @@ const FormModal = ({
       setState((prev) => ({ ...prev, currentTab: currentTab - 1 }));
 
       return;
+    } else if (currentTab === 0) {
+      handleCancel();
+      reset();
+      setState((prev) => ({ ...prev, currentTab: 0 }));
     } else {
       handleCancel();
       reset();
       setState((prev) => ({ ...prev, currentTab: 0 }));
-      return;
     }
   };
 

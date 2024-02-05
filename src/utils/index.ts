@@ -10,8 +10,8 @@ interface ElementCategoryProps {
   lookupId: number;
 }
 
-export const formatDateTime = (dateString: string) => {
-  const inputDate = new Date(dateString);
+export const formatDateTime = (inputDateString: string) => {
+  const dateString = new Date(inputDateString);
 
   interface DateOptions {
     [key: string]: any;
@@ -33,15 +33,15 @@ export const formatDateTime = (dateString: string) => {
     hour12: true,
   };
 
-  return `${inputDate
+  return `${dateString
     .toLocaleDateString(undefined, dateOptions)
-    .replace(/\//g, '-')} || ${inputDate
+    .replace(/\//g, '-')} || ${dateString
     .toLocaleTimeString(undefined, timeOptions)
     .toLocaleUpperCase()}`;
 };
 
-export const formatLinkDateTime = (dateString: string) => {
-  const inputDate = new Date(dateString);
+export const formatLinkDateTime = (inputDateString: string) => {
+  const dateString = new Date(inputDateString);
 
   interface DateOptions {
     [key: string]: any;
@@ -53,7 +53,7 @@ export const formatLinkDateTime = (dateString: string) => {
     year: 'numeric',
   };
 
-  return `${inputDate
+  return `${dateString
     .toLocaleDateString(undefined, dateOptions)
     .replace(/\//g, '-')}`;
 };
