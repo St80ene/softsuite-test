@@ -56,26 +56,7 @@ const FormModal = ({
 
   const Tab = tabList[currentTab];
 
-  const steps = useMemo(
-    () => [
-      {
-        title: 'Element Details',
-        fields: [
-          'name',
-          'classificationValueId',
-          'categoryValueId',
-          'payRunValueId',
-          'reportingName',
-          'description',
-        ],
-      },
-      {
-        title: 'Additional Details',
-        fields: [],
-      },
-    ],
-    []
-  );
+  const steps = useMemo(() => ['Element Details', 'Additional Details'], []);
 
   const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -218,7 +199,7 @@ const FormModal = ({
           {steps.map((item, index) => (
             <Steps
               key={`step-${index}`}
-              title={item?.title}
+              title={item}
               index={index}
               currentIndex={currentTab}
               length={steps?.length}
