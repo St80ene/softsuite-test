@@ -81,14 +81,11 @@ const FormModal = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    console.log('fthere');
     if (currentTab === 1 && currentTab > 0) {
       setState((prev) => ({ ...prev, currentTab: currentTab - 1 }));
 
       return;
     } else if (currentTab === 0) {
-      console.log('here');
-
       handleCancel();
       reset();
       setState((prev) => ({ ...prev, currentTab: 0 }));

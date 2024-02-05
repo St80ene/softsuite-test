@@ -16,14 +16,6 @@ const InputComponent = ({
 }: InputProps & { type: string }) => {
   const inputRegister = register(name, { required: 'This field is required' });
 
-  // const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-  //   setValue(name!, target?.value);
-  // };
-
-  // const handleSwitchChange = (checked: boolean) => {
-  //   setValue(name!, checked);
-  // };
-
   let inputElement;
 
   switch (type) {
