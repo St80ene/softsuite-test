@@ -66,10 +66,7 @@ const InputComponent = ({
           name={name}
           className={`${styles.inputWrapper__inputStyle} ${className}`}
           onChange={({ target }) => {
-            console.log('handle change here value', target?.value);
             if (handleChange) {
-              console.log('handle change here');
-
               handleChange(Number(target?.value));
             } else {
               setValue(name!, target?.value);
