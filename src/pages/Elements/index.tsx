@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../App.module.scss';
 import DataTable from 'react-data-table-component';
-import { Button, Input, Popover } from 'antd';
+import { App, Button, Input, Popover } from 'antd';
 import {
   Delete,
   Edit,
@@ -22,6 +22,7 @@ import elementStyles from './element.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Inputs, IElement } from '../../components/common/interfaces';
+import axios from 'axios';
 
 const { Search } = Input;
 
@@ -55,6 +56,8 @@ export default function Elements() {
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onBlur', defaultValues: intialValues });
 
+  const { message } = App.useApp();
+
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   const {
@@ -63,7 +66,10 @@ export default function Elements() {
     refetch: elementsListRefresh,
   } = useGetElementsQuery();
 
-  const [{ actionOpened, createModal }, setState] = useState({
+  const [{ actionOpened, createModal }, setState] = useState<{
+    createModal: boolean;
+    actionOpened: boolean | null | string | number;
+  }>({
     createModal: false,
     actionOpened: null,
   });
@@ -83,6 +89,31 @@ export default function Elements() {
     }));
 
   const handleCancel = () =>
+    setState((prev) => ({
+      ...prev,
+      createModal: false,
+    }));
+
+  const handlePopConfirm = async (itemId: string | number) => {
+    try {
+      setState((prev) => ({
+        ...prev,
+        createModal: false,
+      }));
+
+      await axios.delete(
+        ` https://650af6bedfd73d1fab094cf7.mockapi.io/elements/${itemId}`
+      );
+
+      elementsListRefresh();
+      message.success('Element has been deleted successfully');
+    } catch (error) {
+      // Handle any errors
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  const handlePopConfirmCancel = () =>
     setState((prev) => ({
       ...prev,
       createModal: false,
@@ -154,18 +185,21 @@ export default function Elements() {
             onClick: () => navigate(`${row?.id}/link`, { state: row }),
           },
           { title: 'Edit Element', Icon: Edit },
-          { title: 'Delete Element', Icon: Delete },
+          {
+            title: 'Delete Element',
+            Icon: Delete,
+            onClick: () => {
+              setState((prev) => ({
+                ...prev,
+                actionOpened: actionOpened === row?.id ? null : false,
+              }));
+            },
+            onConfirm: () => handlePopConfirm(row?.id),
+            onCancel: handlePopConfirmCancel,
+          },
         ];
         return (
           <div className={styles.moreOutlined}>
-            {/* <Popconfirm
-          title='Delete the task'
-          description='Are you sure to delete this task?'
-          onConfirm={confirm}
-          onCancel={cancel}
-          okText='Yes'
-          cancelText='No'
-        > */}
             <Popover
               content={<PopupModalContent listItems={popItems} />}
               title={null}
@@ -175,8 +209,6 @@ export default function Elements() {
             >
               <More />
             </Popover>
-
-            {/* </Popconfirm> */}
           </div>
         );
       },
