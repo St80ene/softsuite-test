@@ -1,7 +1,9 @@
 import inputStyles from '../../components/Form/input.module.scss';
-import { useGetLookupsQuery } from '../../redux/dataSlice';
-import { groupDataByCategory } from '../../utils';
 import InputComponent from '../../components/Form/InputComponent';
+import { lookupValuesInt } from '../../components/common/interfaces';
+import { useEffect, useState } from 'react';
+import { fetchLookupValues } from '../../redux/lookupsSlice';
+import { useDispatch } from 'react-redux';
 
 export const Tab1 = ({
   register,
@@ -12,17 +14,81 @@ export const Tab1 = ({
   errors: any;
   setValue: any;
 }) => {
-  const { data: dataLookups } = useGetLookupsQuery();
+  const dispatch = useDispatch();
 
-  const groupedCategories = groupDataByCategory(
-    dataLookups,
-    'Element Category'
-  );
-  const groupedClassification = groupDataByCategory(
-    dataLookups,
-    'Element Classification'
-  );
-  const groupedPayRun = groupDataByCategory(dataLookups, 'Pay Run');
+  const [classificationOptions, setClassificationOptions] = useState<
+    lookupValuesInt[]
+  >([]);
+  const [categoryOptions, setCategoryOptions] = useState<lookupValuesInt[]>([]);
+  const [payRunOptions, setPayRunOptions] = useState<lookupValuesInt[]>([]);
+
+  const handleClassificationChange = (selectedId: number) => {
+    if (selectedId) {
+      const selectedOption = classificationOptions.find(
+        (option: lookupValuesInt) => Number(option.value) === selectedId
+      );
+
+      if (selectedOption) {
+        setValue('classificationId', selectedOption.lookupId);
+        setValue('classificationValueId', selectedOption.value);
+      }
+    }
+  };
+
+  const handleCategoryChange = (selectedId: number) => {
+    if (selectedId) {
+      const selectedOption = categoryOptions.find(
+        (option: lookupValuesInt) => Number(option.value) === selectedId
+      );
+      if (selectedOption) {
+        setValue('categoryId', selectedOption.lookupId);
+        setValue('categoryValueId', selectedOption.value);
+      }
+    }
+  };
+
+  const handlePayRunChange = (selectedId: number) => {
+    if (selectedId) {
+      const selectedOption = payRunOptions.find(
+        (option) => Number(option.value) === selectedId
+      );
+      if (selectedOption) {
+        setValue('payRunId', selectedOption.lookupId);
+        setValue('payRunValueId', selectedOption.value);
+      }
+    }
+  };
+
+  const handleOptions = (lookupValues: lookupValuesInt[]) => {
+    const transformedOptions = lookupValues.map((item: lookupValuesInt) => ({
+      label: item.label,
+      value: item.value,
+      lookupId: item.lookupId,
+    }));
+    return transformedOptions;
+  };
+
+  useEffect(() => {
+    const fetchOptions = (
+      id: number,
+      setOptions: (options: lookupValuesInt[]) => void
+    ) => {
+      //@ts-expect-error thunk is any
+      dispatch(fetchLookupValues(id))
+        .unwrap()
+        .then((result: lookupValuesInt[]) => {
+          const options = handleOptions(result);
+
+          setOptions(options);
+        })
+        .catch((error: Error) => {
+          console.error(`Error fetching lookup values for id ${id}:`, error);
+        });
+    };
+    fetchOptions(2, setClassificationOptions);
+    fetchOptions(1, setCategoryOptions);
+    fetchOptions(5, setPayRunOptions);
+  }, [dispatch]);
 
   return (
     <div className={inputStyles.modalContent}>
@@ -43,9 +109,10 @@ export const Tab1 = ({
           name='classificationId'
           setValue={setValue}
           placeholder='Select Classification'
-          options={groupedClassification}
+          options={classificationOptions}
           register={register}
           error={errors['classificationId']}
+          handleChange={handleClassificationChange}
         />
       </div>
 
@@ -56,9 +123,10 @@ export const Tab1 = ({
           setValue={setValue}
           name='categoryId'
           placeholder='Select Element Category'
-          options={groupedCategories}
+          options={categoryOptions}
           register={register}
           error={errors['categoryId']}
+          handleChange={handleCategoryChange}
         />
 
         <InputComponent
@@ -67,9 +135,10 @@ export const Tab1 = ({
           setValue={setValue}
           name='payRunId'
           placeholder='Select Payrun'
-          options={groupedPayRun}
+          options={payRunOptions}
           register={register}
           error={errors['payRunId']}
+          handleChange={handlePayRunChange}
         />
       </div>
 
@@ -196,6 +265,7 @@ export const Tab2 = ({
             { label: 'No', value: 'No' },
           ]}
         />
+
         <InputComponent
           type='switch'
           label='Status'
