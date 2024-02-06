@@ -52,3 +52,9 @@ export interface IElement {
   employeeCategoryId: number;
   employeeCategoryValueId: number;
 }
+
+export interface lookupValuesInt {
+  label: string;
+  value: number;
+  lookupId: number;
+}

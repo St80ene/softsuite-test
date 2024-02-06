@@ -56,26 +56,7 @@ const FormModal = ({
 
   const Tab = tabList[currentTab];
 
-  const steps = useMemo(
-    () => [
-      {
-        title: 'Element Details',
-        fields: [
-          'name',
-          'classificationValueId',
-          'categoryValueId',
-          'payRunValueId',
-          'reportingName',
-          'description',
-        ],
-      },
-      {
-        title: 'Additional Details',
-        fields: [],
-      },
-    ],
-    []
-  );
+  const steps = useMemo(() => ['Element Details', 'Additional Details'], []);
 
   const handleBack = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -151,6 +132,9 @@ const FormModal = ({
           effectiveEndDate,
           effectiveStartDate,
           payFrequency,
+          payRunValueId,
+          classificationValueId,
+          categoryValueId,
         } = await getValues();
 
         const formattedEffectiveStartDate =
@@ -162,11 +146,11 @@ const FormModal = ({
           name,
           description,
           payRunId: parseInt(payRunId!, 10),
-          //  payRunValueId: parseInt(payRunValueId!, 10),
+          payRunValueId: parseInt(payRunValueId!, 10),
           classificationId: parseInt(classificationId!, 10),
-          //  classificationValueId: parseInt(classificationValueId!, 10),
+          classificationValueId: parseInt(classificationValueId!, 10),
           categoryId: parseInt(categoryId!, 10),
-          //  categoryValueId: parseInt(categoryValueId!, 10),
+          categoryValueId: parseInt(categoryValueId!, 10),
           reportingName,
           processingType,
           status,
@@ -218,7 +202,7 @@ const FormModal = ({
           {steps.map((item, index) => (
             <Steps
               key={`step-${index}`}
-              title={item?.title}
+              title={item}
               index={index}
               currentIndex={currentTab}
               length={steps?.length}
