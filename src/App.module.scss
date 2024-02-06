@@ -133,6 +133,16 @@
   padding-right: 2px;
   padding-left: 2px;
 
+  & > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    & > p {
+      margin-left: 12px;
+    }
+  }
+
   & > p {
     margin: 4px;
   }
